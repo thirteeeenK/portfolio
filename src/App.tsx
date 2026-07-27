@@ -7,6 +7,7 @@ import Skills from './components/Skills/Skills'
 import TechStackSection from './components/TechStack/TechStack'
 import Projects from './components/Projects/Projects'
 import Experience from './components/Experience/Experience'
+import Education from './components/Education/Education'
 import CertificationsSection from './components/Certifications/Certifications'
 import Contact from './components/Contact/Contact'
 import Footer from './components/Footer/Footer'
@@ -63,6 +64,7 @@ function App() {
         <TechStackSection />
         <Projects />
         <Experience />
+        <Education />
         <CertificationsSection />
         <Contact />
       </main>
