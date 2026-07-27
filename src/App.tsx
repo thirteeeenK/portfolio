@@ -11,6 +11,7 @@ import CertificationsSection from './components/Certifications/Certifications'
 import Contact from './components/Contact/Contact'
 import Footer from './components/Footer/Footer'
 import SocialLinks from './components/SocialLinks/SocialLinks'
+import Typewriter from './components/Typewriter/Typewriter'
 import { personal } from './data/personal'
 import './App.css'
 
@@ -42,7 +43,9 @@ function App() {
 
         <section className="hero-text">
           <h1 className="hero-text__name">{personal.name}</h1>
-          <p className="hero-text__title">{personal.title}</p>
+          <p className="hero-text__title">
+            <Typewriter words={personal.titles} />
+          </p>
           <p className="hero-text__tagline">{personal.tagline}</p>
           <div className="hero-text__actions">
             <CtaButton href="#projects">View Work</CtaButton>

@@ -54,3 +54,21 @@
     font-size: 1.35rem;
   }
 }
+
+@media (max-width: 480px) {
+  .section {
+    padding: 2.5rem 1rem;
+  }
+
+  .section__header {
+    margin-bottom: 1.5rem;
+  }
+
+  .section__title {
+    font-size: 1.2rem;
+  }
+
+  .section__subtitle {
+    font-size: 0.85rem;
+  }
+}

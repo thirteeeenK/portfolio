@@ -40,3 +40,10 @@
 .skills__tag:hover {
   border-color: var(--accent-border);
 }
+
+@media (max-width: 480px) {
+  .skills__tag {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.65rem;
+  }
+}

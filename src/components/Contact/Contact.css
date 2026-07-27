@@ -19,3 +19,9 @@
   display: flex;
   justify-content: center;
 }
+
+@media (max-width: 480px) {
+  .contact__text {
+    font-size: 0.88rem;
+  }
+}

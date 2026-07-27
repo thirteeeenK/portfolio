@@ -126,4 +126,16 @@
   .projects__grid {
     grid-template-columns: 1fr;
   }
+
+  .projects__card-body {
+    padding: 1rem;
+  }
+
+  .projects__title {
+    font-size: 1rem;
+  }
+
+  .projects__description {
+    font-size: 0.82rem;
+  }
 }

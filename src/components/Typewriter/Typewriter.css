@@ -1,0 +1,13 @@
+.typewriter-cursor {
+  display: inline-block;
+  margin-left: 2px;
+  color: var(--accent);
+  animation: blink 0.7s steps(1) infinite;
+  font-weight: 300;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}

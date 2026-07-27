@@ -26,6 +26,14 @@
   @media (max-width: 1024px) {
     font-size: 15px;
   }
+
+  @media (max-width: 600px) {
+    font-size: 14px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 13px;
+  }
 }
 
 @media (prefers-color-scheme: light) {

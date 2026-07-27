@@ -120,12 +120,45 @@
     transparent 100%
   );
   will-change: mask-image, -webkit-mask-image;
-  transition: mask-position 0.05s linear;
+}
+
+@media (max-width: 768px) {
+  .hero-reveal__flame {
+    -webkit-mask-image: radial-gradient(
+      circle 140px at var(--x, 50%) var(--y, 50%),
+      black 0%,
+      black 55%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(
+      circle 140px at var(--x, 50%) var(--y, 50%),
+      black 0%,
+      black 55%,
+      transparent 100%
+    );
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-reveal__flame {
+    -webkit-mask-image: radial-gradient(
+      circle 100px at var(--x, 50%) var(--y, 50%),
+      black 0%,
+      black 55%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(
+      circle 100px at var(--x, 50%) var(--y, 50%),
+      black 0%,
+      black 55%,
+      transparent 100%
+    );
+  }
 }
 
 .hero-reveal__content {
   position: relative;
-  z-index: 3;
+  z-index: 4;
   opacity: 0;
   transform: translateY(24px);
   transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.5s,
@@ -137,6 +170,12 @@
   text-align: center;
   padding: 2rem;
   pointer-events: none;
+}
+
+@media (max-width: 600px) {
+  .hero-reveal__content {
+    padding: 1rem;
+  }
 }
 
 .hero-reveal__content--visible {
@@ -174,6 +213,54 @@
 
 .hero-reveal__content--visible .word-reveal {
   animation-play-state: running;
+}
+
+@media (max-width: 900px) {
+  .hero-reveal::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      transparent 15%,
+      var(--bg) 75%
+    );
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  .hero-reveal__layer {
+    background-position: top center;
+    background-size: 65% auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-reveal::after {
+    background: linear-gradient(
+      to bottom,
+      transparent 5%,
+      var(--bg) 65%
+    );
+  }
+
+  .hero-reveal__layer {
+    background-size: 55% auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-reveal::after {
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      var(--bg) 60%
+    );
+  }
+
+  .hero-reveal__layer {
+    background-size: 50% auto;
+  }
 }
 
 @keyframes wordReveal {
