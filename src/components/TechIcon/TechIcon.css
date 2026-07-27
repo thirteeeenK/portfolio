@@ -1,0 +1,21 @@
+.tech-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.tech-icon svg {
+  display: block;
+}
+
+.tech-icon--fallback {
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.65rem;
+  font-weight: 600;
+  font-family: var(--mono);
+}

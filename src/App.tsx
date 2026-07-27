@@ -1,27 +1,49 @@
 import HeroReveal from './components/HeroReveal/HeroReveal'
-import WordReveal from './components/HeroReveal/WordReveal'
 import CtaButton from './components/CtaButton/CtaButton'
+import Navbar from './components/Navbar/Navbar'
+import About from './components/About/About'
+import Skills from './components/Skills/Skills'
+import TechStackSection from './components/TechStack/TechStack'
+import Projects from './components/Projects/Projects'
+import Experience from './components/Experience/Experience'
+import CertificationsSection from './components/Certifications/Certifications'
+import Contact from './components/Contact/Contact'
+import Footer from './components/Footer/Footer'
+import SocialLinks from './components/SocialLinks/SocialLinks'
+import { personal } from './data/personal'
 import './App.css'
 
 function App() {
   return (
     <>
-      <HeroReveal>
-        {/* <h1 className="hero-reveal__title">
-          <WordReveal text="Stooopidkenly" />
-        </h1>
-        <p className="hero-reveal__subtitle">
-          Move your cursor around to reveal the hidden flames beneath the surface.
-        </p> */}
-        {/* <CtaButton href="#next-steps">
-          Explore
-        </CtaButton> */}
-      </HeroReveal>
+      <Navbar />
 
-      <section>
-        <h1>Next Steps</h1>
-        <p>Some content here...</p>
+      <HeroReveal />
+
+      <section className="hero-text">
+        <h1 className="hero-text__name">{personal.name}</h1>
+        <p className="hero-text__title">{personal.title}</p>
+        <p className="hero-text__tagline">{personal.tagline}</p>
+        <div className="hero-text__actions">
+          <CtaButton href="#projects">View Work</CtaButton>
+          <CtaButton href="#contact">Contact</CtaButton>
+        </div>
+        <div className="hero-text__social">
+          <SocialLinks />
+        </div>
       </section>
+
+      <main>
+        <About />
+        <Skills />
+        <TechStackSection />
+        <Projects />
+        <Experience />
+        <CertificationsSection />
+        <Contact />
+      </main>
+
+      <Footer />
     </>
   )
 }

@@ -1,102 +1,51 @@
-/* ── CTA Button ─────────────────────────────────────── */
-
 .cta-btn {
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.875rem 1rem 0.875rem 1.75rem;
-  border-radius: 999px;
-  border: 1.5px solid rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  gap: 0.5rem;
+  padding: 0.65rem 1.25rem;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: transparent;
   text-decoration: none;
   cursor: pointer;
   overflow: hidden;
   font-family: var(--sans);
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: 0.2px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+  color: var(--text-h);
   outline: none;
   -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.2s, background 0.2s;
 }
 
 .cta-btn:focus-visible {
   outline: 2px solid var(--accent);
-  outline-offset: 3px;
+  outline-offset: 2px;
 }
 
-/* ── Background fill (slides in from left on hover) ─── */
-
-.cta-btn__fill {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(135deg, var(--accent), #7c3aed);
-  transform: scaleX(0);
-  transform-origin: left center;
-  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  z-index: 0;
+.cta-btn:hover {
+  border-color: var(--accent-border);
+  background: var(--accent-bg);
 }
 
-.cta-btn:hover .cta-btn__fill {
-  transform: scaleX(1);
+.cta-btn__fill,
+.cta-btn__icon {
+  display: none;
 }
-
-/* ── Text label ────────────────────────────────────────── */
 
 .cta-btn__text {
   position: relative;
   z-index: 1;
-  color: #fff;
-  transition: color 0.35s ease-out;
-  white-space: nowrap;
 }
-
-/* On hover the fill is accent-colored, so keep text white  */
-.cta-btn:hover .cta-btn__text {
-  color: #fff;
-}
-
-/* ── Circular icon ─────────────────────────────────────── */
-
-.cta-btn__icon {
-  position: relative;
-  z-index: 1;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.25rem;
-  height: 2.25rem;
-  border-radius: 50%;
-  background: var(--accent);
-  transition:
-    transform 0.35s ease-out,
-    background-color 0.35s ease-out,
-    box-shadow 0.35s ease-out;
-}
-
-.cta-btn:hover .cta-btn__icon {
-  transform: translateX(4px);
-  background: #fff;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
-}
-
-/* ── Arrow SVG ─────────────────────────────────────────── */
 
 .cta-btn__arrow {
   width: 1rem;
   height: 1rem;
-  stroke: #fff;
-  stroke-width: 2.5;
+  stroke: currentColor;
+  stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
   fill: none;
-  transition: stroke 0.35s ease-out;
-}
-
-.cta-btn:hover .cta-btn__arrow {
-  stroke: var(--accent);
 }

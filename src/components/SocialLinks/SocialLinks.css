@@ -1,0 +1,36 @@
+.social-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.social-links__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 500;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.social-links__item:hover {
+  border-color: var(--accent-border);
+  color: var(--text-h);
+}
+
+.social-links__label {
+  display: none;
+}
+
+@media (min-width: 480px) {
+  .social-links__label {
+    display: inline;
+  }
+}
