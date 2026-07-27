@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from 'react'
 import HeroReveal from './components/HeroReveal/HeroReveal'
 import CtaButton from './components/CtaButton/CtaButton'
 import Navbar from './components/Navbar/Navbar'
@@ -14,26 +15,44 @@ import { personal } from './data/personal'
 import './App.css'
 
 function App() {
+  const [scrollSplit, setScrollSplit] = useState(false)
+  const activatedRef = useRef(false)
+  const heroRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (activatedRef.current) return
+      if (window.scrollY > 2) {
+        activatedRef.current = true
+        setScrollSplit(true)
+      }
+    }
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
+
   return (
     <>
       <Navbar />
 
       <div className="hero-spacer" />
 
-      <HeroReveal />
+      <div ref={heroRef} className={`hero-wrapper${scrollSplit ? ' hero-wrapper--split' : ''}`}>
+        <HeroReveal />
 
-      <section className="hero-text">
-        <h1 className="hero-text__name">{personal.name}</h1>
-        <p className="hero-text__title">{personal.title}</p>
-        <p className="hero-text__tagline">{personal.tagline}</p>
-        <div className="hero-text__actions">
-          <CtaButton href="#projects">View Work</CtaButton>
-          <CtaButton href="#contact">Contact</CtaButton>
-        </div>
-        <div className="hero-text__social">
-          <SocialLinks />
-        </div>
-      </section>
+        <section className="hero-text">
+          <h1 className="hero-text__name">{personal.name}</h1>
+          <p className="hero-text__title">{personal.title}</p>
+          <p className="hero-text__tagline">{personal.tagline}</p>
+          <div className="hero-text__actions">
+            <CtaButton href="#projects">View Work</CtaButton>
+            <CtaButton href="#contact">Contact</CtaButton>
+          </div>
+          <div className="hero-text__social">
+            <SocialLinks />
+          </div>
+        </section>
+      </div>
 
       <main>
         <About />

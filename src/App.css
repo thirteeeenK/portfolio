@@ -7,46 +7,91 @@ html {
   scroll-behavior: smooth;
 }
 
-.hero-spacer {
-  height: 4rem;
+.hero-wrapper {
+  position: relative;
+  min-height: 100svh;
+  overflow: hidden;
+}
+
+.hero-wrapper--split .hero-reveal__layer {
+  transform: translateX(min(40vw, 400px));
+  transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
 }
 
 .hero-text {
-  padding: 4rem 1.5rem 5rem;
-  max-width: 640px;
-  margin: 0 auto;
-  text-align: center;
+  position: absolute;
+  left: clamp(1.5rem, 18vw, 12rem);
+  top: 50%;
+  transform: translateY(-50%) translateX(-30px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.7s ease 0.2s, transform 0.7s ease 0.2s;
+  text-align: left;
+  max-width: 560px;
+}
+
+.hero-wrapper--split .hero-text {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+  pointer-events: auto;
 }
 
 .hero-text__name {
-  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-size: clamp(2rem, 5vw, 4rem);
   font-weight: 600;
-  letter-spacing: -2px;
-  line-height: 1.1;
-  margin-bottom: 0.75rem;
+  letter-spacing: -1.5px;
+  line-height: 1.2;
+  margin-bottom: 1.25rem;
+  white-space: nowrap;
 }
 
 .hero-text__title {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   color: var(--text);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.35rem;
 }
 
 .hero-text__tagline {
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: var(--text);
-  line-height: 1.6;
+  line-height: 1.5;
   margin-bottom: 2rem;
 }
 
 .hero-text__actions {
   display: flex;
   gap: 0.75rem;
-  justify-content: center;
-  margin-bottom: 2.5rem;
+  justify-content: flex-start;
+  margin-bottom: 1.5rem;
 }
 
 .hero-text__social {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+}
+
+.hero-spacer {
+  height: 4rem;
+}
+
+@media (max-width: 900px) {
+  .hero-wrapper--split .hero-reveal__layer {
+    transform: translateX(0);
+  }
+
+  .hero-text {
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%) translateX(-30px);
+    max-width: 80%;
+    text-align: center;
+  }
+
+  .hero-wrapper--split .hero-text {
+    transform: translateX(-50%) translateY(-50%) translateX(0);
+  }
+
+  .hero-text__actions,
+  .hero-text__social {
+    justify-content: center;
+  }
 }
