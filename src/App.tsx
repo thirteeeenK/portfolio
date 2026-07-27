@@ -18,6 +18,8 @@ function App() {
     <>
       <Navbar />
 
+      <div className="hero-spacer" />
+
       <HeroReveal />
 
       <section className="hero-text">

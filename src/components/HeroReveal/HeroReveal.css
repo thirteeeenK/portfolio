@@ -22,7 +22,14 @@
   left: 0;
   right: 0;
   height: 50%;
-  background: var(--bg);
+  background: linear-gradient(
+    135deg,
+    var(--bg) 0%,
+    var(--code-bg) 40%,
+    var(--bg) 60%,
+    var(--code-bg) 100%
+  );
+  background-size: 400% 400%;
   animation: skeleton-pulse 1.8s ease-in-out infinite;
   transition: transform 1.2s cubic-bezier(0.76, 0, 0.24, 1);
   will-change: transform;
@@ -46,8 +53,17 @@
   height: 1px;
   transform: translateY(-50%) scaleX(0);
   transform-origin: left center;
-  background: var(--accent);
-  box-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #00f0ff 30%,
+    #ffffff 50%,
+    #00f0ff 70%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 4px 1px #ffffff,
+    0 0 12px 2px rgba(0, 240, 255, 0.8);
   transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0s,
               opacity 0.5s ease 0.5s;
   opacity: 1;
