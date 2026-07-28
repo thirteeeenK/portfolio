@@ -1,17 +1,19 @@
 .section {
   padding: 5rem 1.5rem;
+  background-image: radial-gradient(circle, var(--dot) 1px, transparent 1px);
+  background-size: 32px 32px;
 }
 
 .section--light {
-  background: var(--bg);
+  background-color: var(--bg);
 }
 
 .section--dark {
-  background: var(--code-bg);
+  background-color: var(--code-bg);
 }
 
 .section--accent {
-  background: var(--accent-bg);
+  background-color: var(--accent-bg);
 }
 
 .section__container {

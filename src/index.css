@@ -9,6 +9,7 @@
   --accent-border: rgba(255, 255, 255, 0.1);
   --social-bg: rgba(255, 255, 255, 0.02);
   --shadow: none;
+  --dot: rgba(255, 255, 255, 0.025);
 
   --sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
@@ -47,6 +48,7 @@
     --accent-bg: rgba(0, 0, 0, 0.04);
     --accent-border: rgba(0, 0, 0, 0.1);
     --social-bg: rgba(0, 0, 0, 0.02);
+    --dot: rgba(0, 0, 0, 0.025);  
   }
 }
 
@@ -63,6 +65,8 @@
 
 body {
   margin: 0;
+  background-image: radial-gradient(circle, var(--dot) 2px, transparent 1px);
+  background-size: 32px 32px;
 }
 
 h1, h2, h3 {
