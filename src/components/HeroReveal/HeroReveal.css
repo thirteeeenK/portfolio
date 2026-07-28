@@ -103,10 +103,12 @@
 
 .hero-reveal__base {
   z-index: 1;
+  pointer-events: none;
 }
 
 .hero-reveal__flame {
   z-index: 2;
+  pointer-events: none;
   -webkit-mask-image: radial-gradient(
     circle 220px at var(--x, 50%) var(--y, 50%),
     black 0%,

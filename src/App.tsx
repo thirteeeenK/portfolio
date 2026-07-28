@@ -50,7 +50,12 @@ function App() {
           <p className="hero-text__tagline">{personal.tagline}</p>
           <div className="hero-text__actions">
             <CtaButton href="#projects">View Work</CtaButton>
-            <CtaButton href="#contact">Contact</CtaButton>
+            {/* <CtaButton href="#contact">Contact</CtaButton> */}
+            {personal.resumeUrl && (
+                          <CtaButton href={personal.resumeUrl} className="about__resume">
+                            View Resume
+                          </CtaButton>
+                        )}
           </div>
           <div className="hero-text__social">
             <SocialLinks />
