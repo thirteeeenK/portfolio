@@ -1,7 +1,7 @@
 .techstack {
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  gap: 1.5rem;
 }
 
 .techstack__group {
@@ -15,7 +15,7 @@
   text-transform: uppercase;
   letter-spacing: 1px;
   color: var(--text);
-  margin: 0 0 1rem;
+  margin: 0 0 0.5rem;
 }
 
 .techstack__grid {
