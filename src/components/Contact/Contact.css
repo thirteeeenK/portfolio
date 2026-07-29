@@ -1,0 +1,27 @@
+.contact {
+  text-align: center;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.contact__text {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text);
+  margin-bottom: 1.5rem;
+}
+
+.contact__actions {
+  margin-bottom: 2rem;
+}
+
+.contact__social {
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 480px) {
+  .contact__text {
+    font-size: 0.88rem;
+  }
+}

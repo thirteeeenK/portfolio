@@ -1,27 +1,80 @@
+import { useState, useEffect, useRef } from 'react'
 import HeroReveal from './components/HeroReveal/HeroReveal'
-import WordReveal from './components/HeroReveal/WordReveal'
 import CtaButton from './components/CtaButton/CtaButton'
+import Navbar from './components/Navbar/Navbar'
+import About from './components/About/About'
+import Skills from './components/Skills/Skills'
+import TechStackSection from './components/TechStack/TechStack'
+import Projects from './components/Projects/Projects'
+import Experience from './components/Experience/Experience'
+import Education from './components/Education/Education'
+import CertificationsSection from './components/Certifications/Certifications'
+import Contact from './components/Contact/Contact'
+import Footer from './components/Footer/Footer'
+import SocialLinks from './components/SocialLinks/SocialLinks'
+import Typewriter from './components/Typewriter/Typewriter'
+import { personal } from './data/personal'
 import './App.css'
 
 function App() {
+  const [scrollSplit, setScrollSplit] = useState(false)
+  const activatedRef = useRef(false)
+  const heroRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (activatedRef.current) return
+      if (window.scrollY > 2) {
+        activatedRef.current = true
+        setScrollSplit(true)
+      }
+    }
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
+
   return (
     <>
-      <HeroReveal>
-        {/* <h1 className="hero-reveal__title">
-          <WordReveal text="Stooopidkenly" />
-        </h1>
-        <p className="hero-reveal__subtitle">
-          Move your cursor around to reveal the hidden flames beneath the surface.
-        </p> */}
-        {/* <CtaButton href="#next-steps">
-          Explore
-        </CtaButton> */}
-      </HeroReveal>
+      <Navbar />
 
-      <section>
-        <h1>Next Steps</h1>
-        <p>Some content here...</p>
-      </section>
+      <div className="hero-spacer" />
+
+      <div ref={heroRef} className={`hero-wrapper${scrollSplit ? ' hero-wrapper--split' : ''}`}>
+        <HeroReveal disableCursorShift={scrollSplit} />
+
+        <section className="hero-text">
+          <h1 className="hero-text__name">{personal.name}</h1>
+          <p className="hero-text__title">
+            <Typewriter words={personal.titles} />
+          </p>
+          <p className="hero-text__tagline">{personal.tagline}</p>
+          <div className="hero-text__actions">
+            <CtaButton href="#projects">View Work</CtaButton>
+            {/* <CtaButton href="#contact">Contact</CtaButton> */}
+            {personal.resumeUrl && (
+                          <CtaButton href={personal.resumeUrl} className="about__resume">
+                            View Resume
+                          </CtaButton>
+                        )}
+          </div>
+          <div className="hero-text__social">
+            <SocialLinks />
+          </div>
+        </section>
+      </div>
+
+      <main>
+        <About />
+        <Skills />
+        <TechStackSection />
+        <Projects />
+        <Experience />
+        <Education />
+        <CertificationsSection />
+        <Contact />
+      </main>
+
+      <Footer />
     </>
   )
 }

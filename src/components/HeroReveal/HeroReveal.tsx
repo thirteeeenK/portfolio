@@ -27,6 +27,8 @@ export interface HeroRevealProps {
   flameSrc?: string;
   /** Lerp factor (0–1). Lower = smoother/slower. @default 0.1 */
   smoothing?: number;
+  /** When true, disable the cursor-driven parallax shift. */
+  disableCursorShift?: boolean;
   /** Content rendered on top of the two layers. */
   children?: ReactNode;
 }
@@ -37,8 +39,11 @@ export default function HeroReveal({
   baseSrc = "/transparent-base.png",
   flameSrc = "/transparent-flame.png",
   smoothing = 0.1,
+  disableCursorShift = false,
   children,
 }: HeroRevealProps) {
+  const revealRef = useRef<HTMLElement>(null);
+  const baseRef = useRef<HTMLDivElement>(null);
   const flameRef = useRef<HTMLDivElement>(null);
 
   // Raw mouse position (target).
@@ -49,6 +54,10 @@ export default function HeroReveal({
   const hasMovedRef = useRef(false);
   // RAF handle for cleanup.
   const rafRef = useRef<number>(0);
+
+  // Track whether cursor shift is disabled.
+  const disableShiftRef = useRef(disableCursorShift);
+  disableShiftRef.current = disableCursorShift;
 
   // Reveal phases: loading → open → done
   const [phase, setPhase] = useState<"loading" | "open" | "done">("loading");
@@ -90,7 +99,7 @@ export default function HeroReveal({
   /* ── Update raw cursor position ────────────────────── */
 
   const updateCursor = useCallback((clientX: number, clientY: number) => {
-    const el = flameRef.current;
+    const el = revealRef.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
     mouseRef.current = {
@@ -103,8 +112,10 @@ export default function HeroReveal({
   /* ── Listeners + animation loop ────────────────────── */
 
   useEffect(() => {
-    const el = flameRef.current;
-    if (!el) return;
+    const section = revealRef.current;
+    const base = baseRef.current;
+    const fl = flameRef.current;
+    if (!section || !base || !fl) return;
 
     const onMouseMove = (e: MouseEvent) => updateCursor(e.clientX, e.clientY);
 
@@ -113,9 +124,9 @@ export default function HeroReveal({
       if (t) updateCursor(t.clientX, t.clientY);
     };
 
-    el.addEventListener("mousemove", onMouseMove, { passive: true });
-    el.addEventListener("touchstart", onTouchEvent, { passive: true });
-    el.addEventListener("touchmove", onTouchEvent, { passive: true });
+    section.addEventListener("mousemove", onMouseMove, { passive: true });
+    section.addEventListener("touchstart", onTouchEvent, { passive: true });
+    section.addEventListener("touchmove", onTouchEvent, { passive: true });
 
     const tick = () => {
       const target = mouseRef.current;
@@ -124,8 +135,20 @@ export default function HeroReveal({
       sm.x = lerp(sm.x, target.x, smoothing);
       sm.y = lerp(sm.y, target.y, smoothing);
 
-      el.style.setProperty("--x", `${(sm.x * 100).toFixed(2)}%`);
-      el.style.setProperty("--y", `${(sm.y * 100).toFixed(2)}%`);
+      fl.style.setProperty("--x", `${(sm.x * 100).toFixed(2)}%`);
+      fl.style.setProperty("--y", `${(sm.y * 100).toFixed(2)}%`);
+
+      const maxOffset = 12;
+      const tx = ((sm.x - 0.5) * 2) * maxOffset;
+      const ty = ((sm.y - 0.5) * 2) * maxOffset;
+      const t = `translate(${tx.toFixed(1)}px, ${ty.toFixed(1)}px)`;
+      if (disableShiftRef.current) {
+        base.style.transform = "";
+        fl.style.transform = "";
+      } else {
+        base.style.transform = t;
+        fl.style.transform = t;
+      }
 
       rafRef.current = requestAnimationFrame(tick);
     };
@@ -134,9 +157,9 @@ export default function HeroReveal({
 
     return () => {
       cancelAnimationFrame(rafRef.current);
-      el.removeEventListener("mousemove", onMouseMove);
-      el.removeEventListener("touchstart", onTouchEvent);
-      el.removeEventListener("touchmove", onTouchEvent);
+      section.removeEventListener("mousemove", onMouseMove);
+      section.removeEventListener("touchstart", onTouchEvent);
+      section.removeEventListener("touchmove", onTouchEvent);
     };
   }, [smoothing, updateCursor]);
 
@@ -152,6 +175,7 @@ export default function HeroReveal({
 
   return (
     <section
+      ref={revealRef}
       className={`hero-reveal${isRevealed ? " hero-reveal--revealed" : ""}`}
       aria-label="Hero"
     >
@@ -164,6 +188,7 @@ export default function HeroReveal({
 
       {/* Base image — always visible */}
       <div
+        ref={baseRef}
         className="hero-reveal__layer hero-reveal__base"
         style={{ backgroundImage: `url(${baseSrc})` }}
         aria-hidden="true"
@@ -185,6 +210,7 @@ export default function HeroReveal({
       >
         {children}
       </div>
+      
 
       {/* Hint
       <span
