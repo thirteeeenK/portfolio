@@ -14,8 +14,10 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: var(--text);
+  /* color: var(--text); */
+  color: white;
   margin: 0 0 0.5rem;
+  font-weight: bold;
 }
 
 .techstack__grid {
@@ -32,7 +34,8 @@
   border-radius: 4px;
   border: 1px solid var(--border);
   text-decoration: none;
-  color: var(--text);
+  /* color: var(--text); */
+  color: white;
   font-size: 0.82rem;
   font-weight: 500;
   transition: border-color 0.2s, background 0.2s;
