@@ -18,7 +18,7 @@ export default function Typewriter({
   const [wordIdx, setWordIdx] = useState(0)
   const [charIdx, setCharIdx] = useState(0)
   const [deleting, setDeleting] = useState(false)
-  const timeoutRef = useRef<number>()
+  const timeoutRef = useRef<number>(undefined)
 
   useEffect(() => {
     const current = words[wordIdx]

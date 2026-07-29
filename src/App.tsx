@@ -40,7 +40,7 @@ function App() {
       <div className="hero-spacer" />
 
       <div ref={heroRef} className={`hero-wrapper${scrollSplit ? ' hero-wrapper--split' : ''}`}>
-        <HeroReveal />
+        <HeroReveal disableCursorShift={scrollSplit} />
 
         <section className="hero-text">
           <h1 className="hero-text__name">{personal.name}</h1>
