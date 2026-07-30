@@ -13,6 +13,8 @@ import {
   SiFigma,
   SiClaude,
   SiOpencode,
+  SiHtml5,
+  SiCss,
 } from "react-icons/si"
 import { BiLogoVisualStudio } from "react-icons/bi"
 import { TbBrandOpenai, TbRocket } from "react-icons/tb"
@@ -26,6 +28,8 @@ interface TechIconProps {
 const iconMap: Record<string, IconType> = {
   react: SiReact,
   javascript: SiJavascript,
+  html: SiHtml5,
+  css: SiCss,
   "tailwind css": SiTailwindcss,
   php: SiPhp,
   laravel: SiLaravel,
@@ -47,6 +51,8 @@ const iconMap: Record<string, IconType> = {
 const colorMap: Record<string, string> = {
   react: "#61DAFB",
   javascript: "#F7DF1E",
+  html: "#E34F26",
+  css: "#1572B6",
   "tailwind css": "#06B6D4",
   php: "#777BB4",
   laravel: "#FF2D20",
