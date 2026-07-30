@@ -57,7 +57,10 @@ export default function HeroReveal({
 
   // Track whether cursor shift is disabled.
   const disableShiftRef = useRef(disableCursorShift);
-  disableShiftRef.current = disableCursorShift;
+
+  useEffect(() => {
+    disableShiftRef.current = disableCursorShift;
+  }, [disableCursorShift]);
 
   // Reveal phases: loading → open → done
   const [phase, setPhase] = useState<"loading" | "open" | "done">("loading");
@@ -67,16 +70,15 @@ export default function HeroReveal({
 
   useEffect(() => {
     let cancelled = false;
+    const timers = timersRef.current;
     Promise.all([preloadImage(baseSrc), preloadImage(flameSrc)])
       .then(() => {
         if (!cancelled) {
-          // Phase 1: trigger curtain open + wipe line
           setPhase("open");
-          // Phase 2: remove curtain from DOM after animation finishes
           const t = window.setTimeout(() => {
             if (!cancelled) setPhase("done");
           }, 1900);
-          timersRef.current.push(t);
+          timers.push(t);
         }
       })
       .catch(() => {
@@ -85,12 +87,12 @@ export default function HeroReveal({
           const t = window.setTimeout(() => {
             if (!cancelled) setPhase("done");
           }, 1900);
-          timersRef.current.push(t);
+          timers.push(t);
         }
       });
     return () => {
       cancelled = true;
-      timersRef.current.forEach(clearTimeout);
+      timers.forEach(clearTimeout);
     };
   }, [baseSrc, flameSrc]);
 

@@ -7,11 +7,13 @@
   border: 1px solid var(--border);
   background: var(--bg);
   overflow: hidden;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, transform 0.3s, box-shadow 0.3s;
 }
 
 .projects__card:hover {
   border-color: var(--accent-border);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
 .projects__card--featured {

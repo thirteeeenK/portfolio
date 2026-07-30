@@ -93,6 +93,7 @@ html {
     max-width: 85%;
     width: auto;
     text-align: center;
+    padding: 0 1rem;
   }
 
   .hero-wrapper--split .hero-text {
@@ -116,24 +117,126 @@ html {
 }
 
 @media (max-width: 600px) {
+  .hero-wrapper {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero-reveal {
+    min-height: 45vh;
+    flex-shrink: 0;
+  }
+
   .hero-text {
-    max-width: 88%;
-    padding: 0 0.5rem;
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    max-width: 100%;
+    width: 100%;
+    padding: 0 1.25rem 2rem;
+    text-align: center;
+    pointer-events: auto;
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    margin-top: -20px;
+    z-index: 5;
+  }
+
+  .hero-wrapper--split .hero-text {
+    transform: none;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .hero-text__name {
+    font-size: clamp(1.5rem, 6vw, 2rem);
+    margin-bottom: 0.2rem;
+  }
+
+  .hero-text__title {
+    font-size: clamp(0.85rem, 3.5vw, 1rem);
+    margin-bottom: 0.1rem;
+  }
+
+  .hero-text__tagline {
+    font-size: clamp(0.8rem, 3vw, 0.9rem);
+    margin-bottom: 0.75rem;
+    line-height: 1.45;
+    max-width: 300px;
   }
 
   .hero-text__actions {
+    width: 100%;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
+    margin-bottom: 0.6rem;
   }
 
   .hero-text__actions .cta-btn {
     width: 100%;
-    max-width: 220px;
+    max-width: 200px;
+    justify-content: center;
+    padding: 0.55rem 1rem;
+    font-size: 0.82rem;
+  }
+
+  .hero-text__social {
     justify-content: center;
   }
 
   .hero-spacer {
-    height: 3rem;
+    height: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-wrapper {
+    min-height: 100dvh;
+  }
+
+  .hero-reveal {
+    min-height: 40vh;
+  }
+
+  .hero-text {
+    padding: 0 1rem 1.75rem;
+    margin-top: -20px;
+  }
+
+  .hero-text__name {
+    font-size: clamp(1.3rem, 5.5vw, 1.6rem);
+    margin-bottom: 0.15rem;
+  }
+
+  .hero-text__title {
+    font-size: clamp(0.78rem, 3vw, 0.88rem);
+    margin-bottom: 0.05rem;
+  }
+
+  .hero-text__tagline {
+    font-size: clamp(0.75rem, 2.8vw, 0.85rem);
+    margin-bottom: 0.6rem;
+    max-width: 260px;
+  }
+
+  .hero-text__actions {
+    gap: 0.35rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-text__actions .cta-btn {
+    max-width: 180px;
+    padding: 0.45rem 0.85rem;
+    font-size: 0.78rem;
+  }
+
+  .hero-spacer {
+    height: 1.5rem;
   }
 }

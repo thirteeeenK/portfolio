@@ -23,16 +23,22 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
 
-  @media (max-width: 1024px) {
+@media (max-width: 1024px) {
+  :root {
     font-size: 15px;
   }
+}
 
-  @media (max-width: 600px) {
+@media (max-width: 600px) {
+  :root {
     font-size: 14px;
   }
+}
 
-  @media (max-width: 480px) {
+@media (max-width: 480px) {
+  :root {
     font-size: 13px;
   }
 }
@@ -65,7 +71,8 @@
 
 body {
   margin: 0;
-  background-image: radial-gradient(circle, var(--dot) 2px, transparent 1px);
+  overflow-x: hidden;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.025) 2px, transparent 1px);
   background-size: 32px 32px;
 }
 
