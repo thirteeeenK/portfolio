@@ -224,16 +224,16 @@
     inset: 0;
     background: linear-gradient(
       to bottom,
-      transparent 15%,
-      var(--bg) 75%
+      transparent 40%,
+      var(--bg) 85%
     );
     z-index: 3;
     pointer-events: none;
   }
 
   .hero-reveal__layer {
-    background-position: top center;
-    background-size: 65% auto;
+    background-position: center;
+    background-size: 55% auto;
   }
 }
 
@@ -241,13 +241,29 @@
   .hero-reveal::after {
     background: linear-gradient(
       to bottom,
-      transparent 5%,
-      var(--bg) 65%
+      transparent 25%,
+      var(--bg) 70%
     );
   }
 
   .hero-reveal__layer {
-    background-size: 55% auto;
+    background-size: 100% auto;
+    background-position: center 15%;
+  }
+
+  .hero-reveal__flame {
+    -webkit-mask-image: radial-gradient(
+      circle 140px at var(--x, 50%) var(--y, 50%),
+      black 0%,
+      black 55%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(
+      circle 140px at var(--x, 50%) var(--y, 50%),
+      black 0%,
+      black 55%,
+      transparent 100%
+    );
   }
 }
 
@@ -255,13 +271,29 @@
   .hero-reveal::after {
     background: linear-gradient(
       to bottom,
-      transparent 0%,
-      var(--bg) 60%
+      transparent 20%,
+      var(--bg) 65%
     );
   }
 
   .hero-reveal__layer {
-    background-size: 50% auto;
+    background-size: 100% auto;
+    background-position: center 12%;
+  }
+
+  .hero-reveal__flame {
+    -webkit-mask-image: radial-gradient(
+      circle 120px at var(--x, 50%) var(--y, 50%),
+      black 0%,
+      black 55%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(
+      circle 120px at var(--x, 50%) var(--y, 50%),
+      black 0%,
+      black 55%,
+      transparent 100%
+    );
   }
 }
 

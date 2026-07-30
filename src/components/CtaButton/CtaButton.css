@@ -17,6 +17,7 @@
   color: var(--text-h);
   outline: none;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
   transition: border-color 0.2s, background 0.2s;
 }
 

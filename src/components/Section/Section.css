@@ -2,6 +2,7 @@
   padding: 5rem 1.5rem;
   background-image: radial-gradient(circle, var(--dot) 1px, transparent 1px);
   background-size: 32px 32px;
+  scroll-margin-top: 5rem;
 }
 
 .section--light {

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import "./Typewriter.css"
 
 interface TypewriterProps {
@@ -19,6 +19,14 @@ export default function Typewriter({
   const [charIdx, setCharIdx] = useState(0)
   const [deleting, setDeleting] = useState(false)
   const timeoutRef = useRef<number>(undefined)
+  const advanceRef = useRef(false)
+
+  const advance = useCallback(() => {
+    setDeleting(false)
+    setWordIdx((i) => (i + 1) % words.length)
+    setCharIdx(0)
+    setDisplayed("")
+  }, [words.length])
 
   useEffect(() => {
     const current = words[wordIdx]
@@ -35,13 +43,16 @@ export default function Typewriter({
         setDisplayed(current.slice(0, charIdx - 1))
         setCharIdx((c) => c - 1)
       }, deleteSpeed)
-    } else if (deleting && charIdx === 0) {
-      setDeleting(false)
-      setWordIdx((i) => (i + 1) % words.length)
+    } else if (deleting && charIdx === 0 && !advanceRef.current) {
+      advanceRef.current = true
+      timeoutRef.current = window.setTimeout(() => {
+        advanceRef.current = false
+        advance()
+      }, deleteSpeed)
     }
 
     return () => clearTimeout(timeoutRef.current)
-  }, [charIdx, deleting, wordIdx, words, typeSpeed, deleteSpeed, pauseDuration])
+  }, [charIdx, deleting, wordIdx, words, typeSpeed, deleteSpeed, pauseDuration, advance])
 
   return (
     <span>
