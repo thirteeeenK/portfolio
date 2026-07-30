@@ -7,7 +7,7 @@ export default function CertificationsSection() {
   if (certifications.length === 0) return null
 
   return (
-    <Section id="certifications" title="Certifications" subtitle="Professional credentials" background="dark">
+    <Section id="certifications" title="Certifications" background="dark">
       <div className="certs">
         {certifications.map((cert, i) => (
           <motion.a

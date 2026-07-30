@@ -13,6 +13,7 @@ import Contact from './components/Contact/Contact'
 import Footer from './components/Footer/Footer'
 import SocialLinks from './components/SocialLinks/SocialLinks'
 import Typewriter from './components/Typewriter/Typewriter'
+import KineticGrid from './components/KineticGrid/KineticGrid'
 import { personal } from './data/personal'
 import './App.css'
 
@@ -34,7 +35,7 @@ function App() {
   }, [])
 
   return (
-    <>
+    <KineticGrid>
       <Navbar />
 
       <div className="hero-spacer" />
@@ -75,7 +76,7 @@ function App() {
       </main>
 
       <Footer />
-    </>
+    </KineticGrid>
   )
 }
 

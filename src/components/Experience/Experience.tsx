@@ -18,7 +18,6 @@ export default function Experience() {
           >
             <div className="experience__timeline">
               <div className="experience__dot" />
-              {i < experiences.length - 1 && <div className="experience__line" />}
             </div>
             <div className="experience__content">
               <div className="experience__header">

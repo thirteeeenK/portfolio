@@ -2,6 +2,17 @@
   text-align: left;
   max-width: 640px;
   margin: 0 auto;
+  position: relative;
+}
+
+.education::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 5px;
+  bottom: 0;
+  width: 1px;
+  background: var(--border);
 }
 
 .education__item {
@@ -29,13 +40,6 @@
   background: var(--accent);
   flex-shrink: 0;
   margin-top: 5px;
-}
-
-.education__line {
-  width: 1px;
-  flex-grow: 1;
-  background: var(--border);
-  margin: 4px 0;
 }
 
 .education__content {

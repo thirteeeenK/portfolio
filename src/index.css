@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 :root {
   --bg: #0a0a0a;
   --text: #888;
@@ -72,8 +74,6 @@
 body {
   margin: 0;
   overflow-x: hidden;
-  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.025) 2px, transparent 1px);
-  background-size: 32px 32px;
 }
 
 h1, h2, h3 {

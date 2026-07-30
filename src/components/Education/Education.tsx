@@ -18,7 +18,6 @@ export default function Education() {
           >
             <div className="education__timeline">
               <div className="education__dot" />
-              {i < educations.length - 1 && <div className="education__line" />}
             </div>
             <div className="education__content">
               <div className="education__header">
