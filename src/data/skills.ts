@@ -5,7 +5,8 @@ export interface Skill {
 
 export const skills: Skill[] = [
   { name: "UI/UX Design", category: "Design" },
-  { name: "Responsive Layouts", category: "Frontend" },
+  // { name: "Vibe Coding Responsive Layouts", category: "Frontend" },
+  { name: "Frontend Vibecoding", category: "Frontend" },
   { name: "API Design", category: "Backend" },
   { name: "Database Modeling", category: "Backend" },
   // { name: "CI/CD Pipelines", category: "DevOps" },
