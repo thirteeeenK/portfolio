@@ -40,6 +40,12 @@
   color: var(--text-h);
 }
 
+.navbar__link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
 .navbar__toggle {
   display: none;
   flex-direction: column;
@@ -113,5 +119,4 @@
     width: 100vw;
     border-left: none;
   }
-}
 }
