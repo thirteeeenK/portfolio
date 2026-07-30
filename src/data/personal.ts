@@ -13,8 +13,9 @@ export const personal: PersonalInfo = {
   titles: [
     "IT Student",
     "Backend Developer",
-    "Full-Stack AI Developer",
-    "Full-time Vibe Coder"
+    "Frontend Vibe Coder"
+    // "Full-Stack AI Developer",
+    // "Full-time Frontend Vibe Coder"
   ],
   tagline: "I build things for the web. I vibe code for the web.",
   bio: [
