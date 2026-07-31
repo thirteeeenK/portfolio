@@ -1,6 +1,12 @@
 {
   "version": 1,
   "skills": {
+    "impeccable": {
+      "source": "pbakaus/impeccable",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/impeccable/SKILL.md",
+      "computedHash": "1d4b2dbbdc97f58fd8a406ca5c7e80afe3ce563654cf0a3d9464eca6dda506af"
+    },
     "web-design-guidelines": {
       "source": "vercel-labs/agent-skills",
       "sourceType": "github",
