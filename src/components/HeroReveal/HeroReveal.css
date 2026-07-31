@@ -110,13 +110,13 @@
   z-index: 2;
   pointer-events: none;
   -webkit-mask-image: radial-gradient(
-    circle 220px at var(--x, 50%) var(--y, 50%),
+    circle 200px at var(--x, 50%) var(--y, 50%),
     black 0%,
     black 55%,
     transparent 100%
   );
   mask-image: radial-gradient(
-    circle 220px at var(--x, 50%) var(--y, 50%),
+    circle 200px at var(--x, 50%) var(--y, 50%),
     black 0%,
     black 55%,
     transparent 100%

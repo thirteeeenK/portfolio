@@ -77,10 +77,10 @@ export default function KineticGrid({ children }: { children?: ReactNode }) {
         const rdx = gx - r.x
         const rdy = gy - r.y
         const rdist = Math.sqrt(rdx * rdx + rdy * rdy)
-        const waveWidth = 55
+          const waveWidth = 40
         const diff = rdist - r.radius
         if (Math.abs(diff) < waveWidth) {
-          const strength = (1 - Math.abs(diff) / waveWidth) * r.opacity * 18 * pinFactor
+          const strength = (1 - Math.abs(diff) / waveWidth) * r.opacity * 10 * pinFactor
           const angle = Math.atan2(rdy, rdx)
           const sign = diff < 0 ? -1 : 1
           rx += Math.cos(angle) * strength * sign * -1
@@ -143,8 +143,8 @@ export default function KineticGrid({ children }: { children?: ReactNode }) {
       for (let i = ripples.length - 1; i >= 0; i--) {
         const r = ripples[i]
         const age = (now - r.born) / 1000
-        r.radius = Math.max(0, age * 400)
-        r.opacity = Math.max(0, 1 - age * 1.2)
+        r.radius = Math.max(0, age * 200)
+        r.opacity = Math.max(0, 1 - age * 2.2)
         if (r.opacity <= 0) ripples.splice(i, 1)
       }
 

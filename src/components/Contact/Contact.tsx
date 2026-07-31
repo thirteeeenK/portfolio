@@ -6,15 +6,15 @@ import "./Contact.css"
 
 export default function Contact() {
   return (
-    <Section id="contact" title="Contact" subtitle="Get in touch" background="accent">
+    <Section id="contact" title="Contact" subtitle="Let's work together" background="accent">
       <div className="contact">
         <p className="contact__text">
-          I'm always open to new opportunities, collaborations, or just a friendly chat.
-          Feel free to reach out.
+          I'm currently open to internships, freelance projects, and collaboration.
+          If you have an idea or an opportunity, I'd like to hear about it.
         </p>
         <div className="contact__actions">
           <CtaButton href={`mailto:${personal.email}`}>
-            Send Email
+            {personal.email}
           </CtaButton>
         </div>
         <div className="contact__social">
