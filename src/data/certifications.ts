@@ -49,7 +49,7 @@ export const certifications: Certification[] = [
     id: "dict2",
     name: "ChatGPT Unleashed: Smart Prompting for Smarter Work",
     issuer: "Department of Information and Communications Technology",
-    date: "Aprl 26, 2026",
+    date: "April 26, 2026",
     credentialId: "R5ILCBD:2026-W-CUSP-1",
   },
 
