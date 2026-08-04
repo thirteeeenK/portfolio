@@ -52,6 +52,10 @@ export default function HeroReveal({
   const smoothRef = useRef({ x: 0.5, y: 0.5 });
   // Whether the user has moved their cursor/touch at all.
   const hasMovedRef = useRef(false);
+  // Timestamp of last mouse movement for stationary 0.8s shrink decay.
+  const lastMoveTimeRef = useRef(0);
+  // Smoothed spotlight mask radius.
+  const smoothRadiusRef = useRef(200);
   // RAF handle for cleanup.
   const rafRef = useRef<number>(0);
 
@@ -98,7 +102,7 @@ export default function HeroReveal({
 
   const isRevealed = phase === "open" || phase === "done";
 
-  /* ── Update raw cursor position ────────────────────── */
+  /* ── Update raw cursor position & reset move timer ── */
 
   const updateCursor = useCallback((clientX: number, clientY: number) => {
     const el = revealRef.current;
@@ -109,6 +113,7 @@ export default function HeroReveal({
       y: (clientY - rect.top) / rect.height,
     };
     hasMovedRef.current = true;
+    lastMoveTimeRef.current = performance.now();
   }, []);
 
   /* ── Listeners + animation loop ────────────────────── */
@@ -120,6 +125,9 @@ export default function HeroReveal({
     if (!section || !base || !fl) return;
 
     const onMouseMove = (e: MouseEvent) => updateCursor(e.clientX, e.clientY);
+    const onMouseLeave = () => {
+      lastMoveTimeRef.current = 0; // Trigger instant shrink decay when mouse leaves
+    };
 
     const onTouchEvent = (e: TouchEvent) => {
       const t = e.touches[0];
@@ -127,8 +135,10 @@ export default function HeroReveal({
     };
 
     section.addEventListener("mousemove", onMouseMove, { passive: true });
+    section.addEventListener("mouseleave", onMouseLeave, { passive: true });
     section.addEventListener("touchstart", onTouchEvent, { passive: true });
     section.addEventListener("touchmove", onTouchEvent, { passive: true });
+    section.addEventListener("touchend", onMouseLeave, { passive: true });
 
     const tick = () => {
       const target = mouseRef.current;
@@ -139,6 +149,28 @@ export default function HeroReveal({
 
       fl.style.setProperty("--x", `${(sm.x * 100).toFixed(2)}%`);
       fl.style.setProperty("--y", `${(sm.y * 100).toFixed(2)}%`);
+
+      // 1-second spotlight shrink decay when mouse stops moving
+      const now = performance.now();
+      const idleTime = now - lastMoveTimeRef.current;
+      const width = section.getBoundingClientRect().width || window.innerWidth;
+      const isMobile = width < 600;
+      const maxRadius = isMobile ? (width < 480 ? 100 : 140) : 200;
+
+      const DECAY_TIME = 1000; // 1 second
+      let targetRadius = 0;
+
+      if (hasMovedRef.current && idleTime < DECAY_TIME) {
+        const progress = idleTime / DECAY_TIME; // 0..1
+        const shrinkFactor = Math.pow(1 - progress, 1.3);
+        targetRadius = maxRadius * shrinkFactor;
+      }
+
+      // Fast expansion on cursor movement, smooth 0.8s decay shrink when idle
+      const lerpSpeed = targetRadius > smoothRadiusRef.current ? 0.3 : 0.12;
+      smoothRadiusRef.current = lerp(smoothRadiusRef.current, targetRadius, lerpSpeed);
+
+      fl.style.setProperty("--size", `${smoothRadiusRef.current.toFixed(1)}px`);
 
       const maxOffset = 12;
       const tx = ((sm.x - 0.5) * 2) * maxOffset;
@@ -160,8 +192,10 @@ export default function HeroReveal({
     return () => {
       cancelAnimationFrame(rafRef.current);
       section.removeEventListener("mousemove", onMouseMove);
+      section.removeEventListener("mouseleave", onMouseLeave);
       section.removeEventListener("touchstart", onTouchEvent);
       section.removeEventListener("touchmove", onTouchEvent);
+      section.removeEventListener("touchend", onMouseLeave);
     };
   }, [smoothing, updateCursor]);
 
