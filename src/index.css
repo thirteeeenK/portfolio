@@ -45,21 +45,6 @@
   }
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    --bg: #fafafa;
-    --text: #777;
-    --text-h: #111;
-    --border: #e0e0e0;
-    --code-bg: #f0f0f0;
-    --accent: #111;
-    --accent-bg: rgba(0, 0, 0, 0.04);
-    --accent-border: rgba(0, 0, 0, 0.1);
-    --social-bg: rgba(0, 0, 0, 0.02);
-    --dot: rgba(0, 0, 0, 0.025);  
-  }
-}
-
 #root {
   width: 100%;
   max-width: 100%;
