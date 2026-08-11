@@ -1,6 +1,8 @@
-# Personal Portfolio
+# Personal Portfolio 
 
 A dark, animated personal portfolio **Vibe Coded** and built with **React 19**, **TypeScript**, and **Vite 8**. Features a cursor-driven two-layer hero reveal animation, kinetic grid background, and fully data-driven content — every section is customized from `src/data/` without touching components.
+
+Feel free to modify and improve.
 
 ## Tech Stack
 
@@ -195,3 +197,5 @@ Then update the `og:url` / `og:image` metas in `index.html` to your live domain.
 | `npm run build` | Typecheck + production build (`tsc -b && vite build`) |
 | `npm run lint` | ESLint (flat config) |
 | `npm run preview` | Preview the built site locally |
+
+**Made and Vibe Coded with ❤️ for the community**

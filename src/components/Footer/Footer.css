@@ -20,8 +20,8 @@
 }
 
 .footer__link {
-  font-size: 0.78rem;
-  color: var(--text);
+  font-size: 0.9rem;
+  color: #fff;
   text-decoration: none;
   transition: color 0.2s;
 }
@@ -34,8 +34,8 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  font-size: 0.72rem;
-  color: var(--text);
+  font-size: 0.85rem;
+  color: #fff;
 }
 
 .footer__location {
@@ -44,6 +44,12 @@
 
 .footer__copy {
   white-space: nowrap;
+}
+
+.footer__tagline {
+  font-size: 0.85rem;
+  color: #fff;
+  text-align: center;
 }
 
 @media (max-width: 480px) {
