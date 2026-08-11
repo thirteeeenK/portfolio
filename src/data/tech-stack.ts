@@ -29,9 +29,9 @@ export const techStack: TechItem[] = [
 
   { name: "Figma", category: "Tools", url: "https://www.figma.com" },
 
-  { name: "Claude Code", category: "AI Tools", url:"https://claude.ai/"},
+
   { name: "ChatGPT", category: "AI Tools", url: "https://chatgpt.com/" },
-  { name: "OpenCode", category: "AI Tools", url:"https://opencode.ai/"},
+  { name: "Google Gemini", category: "AI Tools", url: "https://gemini.google.com/" },
   { name: "Antigravity", category: "AI Tools", url: "https://antigravity.google/" },
 
   // { name: "Redis", category: "Database", url: "https://redis.io" },
