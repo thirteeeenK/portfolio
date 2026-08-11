@@ -6,7 +6,7 @@ import About from './components/About/About'
 import Skills from './components/Skills/Skills'
 import TechStackSection from './components/TechStack/TechStack'
 import Projects from './components/Projects/Projects'
-import Experience from './components/Experience/Experience'
+// import Experience from './components/Experience/Experience'
 import Education from './components/Education/Education'
 import CertificationsSection from './components/Certifications/Certifications'
 import Contact from './components/Contact/Contact'
@@ -69,7 +69,7 @@ function App() {
         <Skills />
         <TechStackSection />
         <Projects />
-        <Experience />
+        {/* <Experience /> */}
         <Education />
         <CertificationsSection />
         <Contact />

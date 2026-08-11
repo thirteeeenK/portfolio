@@ -22,8 +22,10 @@ export default function Education() {
             <div className="education__content">
               <div className="education__header">
                 <div>
-                  <h3 className="education__program">{edu.program}</h3>
-                  <span className="education__school">{edu.school}</span>
+                  {/* <h3 className="education__program">{edu.program}</h3>
+                  <span className="education__school">{edu.school}</span> */}
+                  <span className="education__program">{edu.school}</span>
+                  <h3 className="education__school">{edu.program}</h3>
                 </div>
                 <span className="education__year">{edu.year}</span>
               </div>
