@@ -4,6 +4,7 @@
   --bg: #0a0a0a;
   --text: #888;
   --text-h: #fafafa;
+  --text-soft: #b0b0b0;
   --border: #1a1a1a;
   --code-bg: #111;
   --accent: #fafafa;
@@ -12,6 +13,11 @@
   --social-bg: rgba(255, 255, 255, 0.02);
   --shadow: none;
   --dot: rgba(255, 255, 255, 0.025);
+  --section-bg: rgba(10, 10, 10, 0.85);
+  --section-bg-alt: rgba(17, 17, 17, 0.85);
+  --section-accent: rgba(255, 255, 255, 0.04);
+  --wipe-core: #ffffff;
+  --wipe-glow: rgba(0, 240, 255, 0.8);
 
   --sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
@@ -25,6 +31,34 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scrollbar-width: none;        /* Firefox */
+}
+html::-webkit-scrollbar {
+  display: none;                /* Chrome / Edge / Safari */
+}
+
+:root[data-theme="light"] {
+  --bg: #fafafa;
+  --text: #111111;
+  --text-h: #111111;
+  --text-soft: #333333;
+  --border: #e6e6e6;
+  --code-bg: #f0f0f0;
+  --accent: #111111;
+  --accent-bg: rgba(0, 0, 0, 0.04);
+  --accent-border: rgba(0, 0, 0, 0.12);
+  --social-bg: rgba(0, 0, 0, 0.02);
+  --shadow: none;
+  --dot: rgba(0, 0, 0, 0.025);
+  --section-bg: #fafafa;
+  --section-bg-alt: #ededed;
+  --section-accent: rgba(0, 0, 0, 0.05);
+  --wipe-core: #111111;
+
+  color-scheme: light;
 }
 
 @media (max-width: 1024px) {

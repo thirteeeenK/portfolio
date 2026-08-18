@@ -1,8 +1,14 @@
 import { useState, useEffect, useRef } from "react"
+import { FiMoon, FiSun } from "react-icons/fi"
 import { navItems } from "../../data/navigation"
 import "./Navbar.css"
 
-export default function Navbar() {
+interface NavbarProps {
+  theme: "dark" | "light"
+  onToggleTheme: () => void
+}
+
+export default function Navbar({ theme, onToggleTheme }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const navRef = useRef<HTMLDivElement>(null)
@@ -28,6 +34,15 @@ export default function Navbar() {
   return (
     <header className={`navbar${scrolled ? " navbar--scrolled" : ""}`}>
       <div className="navbar__container">
+        <button
+          className="navbar__theme"
+          onClick={onToggleTheme}
+          aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+          title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+        >
+          {theme === "dark" ? <FiSun size={18} /> : <FiMoon size={18} />}
+        </button>
+
         <button
           className={`navbar__toggle${open ? " navbar__toggle--open" : ""}`}
           onClick={() => setOpen(!open)}

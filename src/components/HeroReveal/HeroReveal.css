@@ -57,13 +57,13 @@
     90deg,
     transparent 0%,
     #00f0ff 30%,
-    #ffffff 50%,
+    var(--wipe-core) 50%,
     #00f0ff 70%,
     transparent 100%
   );
   box-shadow:
-    0 0 4px 1px #ffffff,
-    0 0 12px 2px rgba(0, 240, 255, 0.8);
+    0 0 4px 1px var(--wipe-core),
+    0 0 12px 2px var(--wipe-glow);
   transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0s,
               opacity 0.5s ease 0.1s;
   opacity: 1;

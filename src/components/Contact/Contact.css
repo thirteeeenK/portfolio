@@ -7,7 +7,7 @@
 .contact__text {
   font-size: 0.92rem;
   line-height: 1.65;
-  color: #b0b0b0;
+  color: var(--text-soft);
   margin-bottom: 1.5rem;
 }
 

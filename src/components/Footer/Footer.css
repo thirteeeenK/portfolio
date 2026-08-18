@@ -21,7 +21,7 @@
 
 .footer__link {
   font-size: 0.9rem;
-  color: #fff;
+  color: var(--text-h);
   text-decoration: none;
   transition: color 0.2s;
 }
@@ -35,7 +35,7 @@
   align-items: center;
   gap: 1rem;
   font-size: 0.85rem;
-  color: #fff;
+  color: var(--text-h);
 }
 
 .footer__location {
@@ -48,7 +48,7 @@
 
 .footer__tagline {
   font-size: 0.85rem;
-  color: #fff;
+  color: var(--text-h);
   text-align: center;
 }
 

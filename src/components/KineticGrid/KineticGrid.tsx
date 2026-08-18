@@ -40,7 +40,13 @@ function lerpColor(
   return `rgba(${r},${g},${b},${a.toFixed(3)})`
 }
 
-export default function KineticGrid({ children }: { children?: ReactNode }) {
+export default function KineticGrid({
+  theme = "dark",
+  children,
+}: {
+  theme?: "dark" | "light"
+  children?: ReactNode
+}) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   const mouseRef = useRef<Point>({ x: -9999, y: -9999 })
@@ -118,20 +124,31 @@ export default function KineticGrid({ children }: { children?: ReactNode }) {
       const mouse = mouseRef.current
       const ripples = ripplesRef.current
 
-      const theme = {
-        bg: "#0a0a0a",
-        lineActive: { r: 255, g: 255, b: 255, a: 0.2 },
-        nodeActive: { r: 255, g: 255, b: 255, a: 0.35 },
-        glow: "255,255,255",
-        ripple: "255,255,255",
-      }
+      const palette =
+        theme === "light"
+          ? {
+              bg: "#fafafa",
+              lineActive: { r: 0, g: 0, b: 0, a: 0.15 },
+              nodeActive: { r: 0, g: 0, b: 0, a: 0.25 },
+              glow: "0,0,0",
+              ripple: "0,0,0",
+              dot: "rgba(0,0,0,0.04)",
+            }
+          : {
+              bg: "#0a0a0a",
+              lineActive: { r: 255, g: 255, b: 255, a: 0.2 },
+              nodeActive: { r: 255, g: 255, b: 255, a: 0.35 },
+              glow: "255,255,255",
+              ripple: "255,255,255",
+              dot: "rgba(255,255,255,0.03)",
+            }
 
       ctx.clearRect(0, 0, W, H)
 
-      ctx.fillStyle = theme.bg
+      ctx.fillStyle = palette.bg
       ctx.fillRect(0, 0, W, H)
 
-      ctx.fillStyle = "rgba(255,255,255,0.03)"
+      ctx.fillStyle = palette.dot
       for (let x = DOT_SPACING / 2; x < W; x += DOT_SPACING) {
         for (let y = DOT_SPACING / 2; y < H; y += DOT_SPACING) {
           ctx.beginPath()
@@ -181,7 +198,7 @@ export default function KineticGrid({ children }: { children?: ReactNode }) {
         ctx.beginPath()
         ctx.moveTo(p1.x, p1.y)
         ctx.lineTo(p2.x, p2.y)
-        ctx.strokeStyle = lerpColor(LINE_BASE, theme.lineActive, t)
+        ctx.strokeStyle = lerpColor(LINE_BASE, palette.lineActive, t)
         ctx.lineWidth = lerpN(0.8, 1.5, t)
         ctx.stroke()
       }
@@ -206,8 +223,8 @@ export default function KineticGrid({ children }: { children?: ReactNode }) {
           if (t > 0.3) {
             const glowR = r + lerpN(0, 3, (t - 0.3) / 0.7)
             const grd = ctx.createRadialGradient(p.x, p.y, r * 0.5, p.x, p.y, glowR)
-            grd.addColorStop(0, `rgba(${theme.glow},${(t * 0.15).toFixed(3)})`)
-            grd.addColorStop(1, `rgba(${theme.glow},0)`)
+            grd.addColorStop(0, `rgba(${palette.glow},${(t * 0.15).toFixed(3)})`)
+            grd.addColorStop(1, `rgba(${palette.glow},0)`)
             ctx.beginPath()
             ctx.arc(p.x, p.y, glowR, 0, Math.PI * 2)
             ctx.fillStyle = grd
@@ -216,7 +233,7 @@ export default function KineticGrid({ children }: { children?: ReactNode }) {
 
           ctx.beginPath()
           ctx.arc(p.x, p.y, r, 0, Math.PI * 2)
-          ctx.fillStyle = lerpColor({ r: 255, g: 255, b: 255, a: 0.15 }, theme.nodeActive, t)
+          ctx.fillStyle = lerpColor({ r: 255, g: 255, b: 255, a: 0.15 }, palette.nodeActive, t)
           ctx.fill()
         }
       }
@@ -225,12 +242,12 @@ export default function KineticGrid({ children }: { children?: ReactNode }) {
         const safeRadius = Math.max(0, r.radius)
         ctx.beginPath()
         ctx.arc(r.x, r.y, safeRadius, 0, Math.PI * 2)
-        ctx.strokeStyle = `rgba(${theme.ripple},${(r.opacity * 0.28).toFixed(3)})`
+        ctx.strokeStyle = `rgba(${palette.ripple},${(r.opacity * 0.28).toFixed(3)})`
         ctx.lineWidth = 1.5
         ctx.stroke()
       }
     },
-    [getWarpedPoint],
+    [getWarpedPoint, theme],
   )
 
   const animateRef = useRef<(now: number) => void>(() => {})

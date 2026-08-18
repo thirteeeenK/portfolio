@@ -33,4 +33,15 @@ export const projects: Project[] = [
     featured: true,
     category: "Frontend",
   },
+  {
+    id: "deleteMeWeb",
+    title: "Delete Me",
+    description:
+      "Side project I vibecoded because of curiosity and for fun. Close hand - vanish.",
+    technologies: ["HTML", "CSS", "Javascript", "MediaPipe", "OpenCV"],
+    githubUrl: "https://github.com/thirteeeenK/deleteMeWeb",
+    liveUrl: "/src/assets/recording.mp4",
+    featured: true,
+    category: "Vibecode",
+  },
 ]

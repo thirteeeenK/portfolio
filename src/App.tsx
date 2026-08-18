@@ -15,12 +15,36 @@ import SocialLinks from './components/SocialLinks/SocialLinks'
 import Typewriter from './components/Typewriter/Typewriter'
 import KineticGrid from './components/KineticGrid/KineticGrid'
 import { personal } from './data/personal'
+import ThemeReveal from './components/ThemeReveal/ThemeReveal'
 import './App.css'
+
+type Theme = "dark" | "light"
 
 function App() {
   const [scrollSplit, setScrollSplit] = useState(false)
+  const [theme, setTheme] = useState<Theme>(() =>
+    document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark",
+  )
+  const [wiping, setWiping] = useState<Theme | null>(null)
   const activatedRef = useRef(false)
   const heroRef = useRef<HTMLDivElement>(null)
+
+  const applyTheme = (target: Theme) => {
+    setTheme(target)
+    document.documentElement.setAttribute("data-theme", target)
+    try {
+      localStorage.setItem("theme", target)
+    } catch {
+      /* ignore */
+    }
+    const meta = document.querySelector('meta[name="theme-color"]')
+    if (meta) meta.setAttribute("content", target === "light" ? "#fafafa" : "#0a0a0a")
+  }
+
+  const handleToggleTheme = () => {
+    if (wiping) return
+    setWiping(theme === "dark" ? "light" : "dark")
+  }
 
   useEffect(() => {
     const onScroll = () => {
@@ -35,8 +59,15 @@ function App() {
   }, [])
 
   return (
-    <KineticGrid>
-      <Navbar />
+    <KineticGrid theme={theme}>
+      <Navbar theme={theme} onToggleTheme={handleToggleTheme} />
+
+      {wiping && (
+        <ThemeReveal
+          onComplete={() => applyTheme(wiping)}
+          onDone={() => setWiping(null)}
+        />
+      )}
 
       <div className="hero-spacer" />
 

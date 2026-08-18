@@ -4,15 +4,15 @@
 }
 
 .section--light {
-  background-color: rgba(10, 10, 10, 0.85);
+  background-color: var(--section-bg);
 }
 
 .section--dark {
-  background-color: rgba(17, 17, 17, 0.85);
+  background-color: var(--section-bg-alt);
 }
 
 .section--accent {
-  background-color: rgba(255, 255, 255, 0.04);
+  background-color: var(--section-accent);
 }
 
 .section__container {
