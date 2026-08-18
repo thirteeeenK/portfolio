@@ -20,7 +20,6 @@ const MAX_WARP = 24
 const DOT_SPACING = 28
 const LERP_SPEED = 0.08
 
-const LINE_BASE = { r: 255, g: 255, b: 255, a: 0.13 }
 const NODE_BASE_RADIUS = 1.8
 const NODE_ACTIVE_RADIUS = 3.2
 
@@ -128,7 +127,9 @@ export default function KineticGrid({
         theme === "light"
           ? {
               bg: "#fafafa",
+              lineBase: { r: 0, g: 0, b: 0, a: 0.14 },
               lineActive: { r: 0, g: 0, b: 0, a: 0.15 },
+              nodeBase: { r: 0, g: 0, b: 0, a: 0.16 },
               nodeActive: { r: 0, g: 0, b: 0, a: 0.25 },
               glow: "0,0,0",
               ripple: "0,0,0",
@@ -136,7 +137,9 @@ export default function KineticGrid({
             }
           : {
               bg: "#0a0a0a",
+              lineBase: { r: 255, g: 255, b: 255, a: 0.13 },
               lineActive: { r: 255, g: 255, b: 255, a: 0.2 },
+              nodeBase: { r: 255, g: 255, b: 255, a: 0.15 },
               nodeActive: { r: 255, g: 255, b: 255, a: 0.35 },
               glow: "255,255,255",
               ripple: "255,255,255",
@@ -198,7 +201,7 @@ export default function KineticGrid({
         ctx.beginPath()
         ctx.moveTo(p1.x, p1.y)
         ctx.lineTo(p2.x, p2.y)
-        ctx.strokeStyle = lerpColor(LINE_BASE, palette.lineActive, t)
+        ctx.strokeStyle = lerpColor(palette.lineBase, palette.lineActive, t)
         ctx.lineWidth = lerpN(0.8, 1.5, t)
         ctx.stroke()
       }
@@ -233,7 +236,7 @@ export default function KineticGrid({
 
           ctx.beginPath()
           ctx.arc(p.x, p.y, r, 0, Math.PI * 2)
-          ctx.fillStyle = lerpColor({ r: 255, g: 255, b: 255, a: 0.15 }, palette.nodeActive, t)
+          ctx.fillStyle = lerpColor(palette.nodeBase, palette.nodeActive, t)
           ctx.fill()
         }
       }

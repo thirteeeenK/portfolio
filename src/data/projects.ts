@@ -40,7 +40,7 @@ export const projects: Project[] = [
       "Side project I vibecoded because of curiosity and for fun. Close hand - vanish.",
     technologies: ["HTML", "CSS", "Javascript", "MediaPipe", "OpenCV"],
     githubUrl: "https://github.com/thirteeeenK/deleteMeWeb",
-    liveUrl: "/src/assets/recording.mp4",
+    liveUrl: "/videos/recording.mp4",
     featured: true,
     category: "Vibecode",
   },

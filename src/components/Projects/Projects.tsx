@@ -1,12 +1,42 @@
+import { useEffect, useState } from "react"
 import Section from "../Section/Section"
 import { projects } from "../../data/projects"
 import TechIcon from "../TechIcon/TechIcon"
-import { motion } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion"
 import "./Projects.css"
+
+const VIDEO_EXT = /\.(mp4|webm|mov|ogg)(\?.*)?$/i
+
+function isVideoDemo(url: string) {
+  return VIDEO_EXT.test(url)
+}
 
 export default function Projects() {
   const featured = projects.filter((p) => p.featured)
   const others = projects.filter((p) => !p.featured)
+  const [activeVideo, setActiveVideo] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!activeVideo) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setActiveVideo(null)
+    }
+    const prevOverflow = document.body.style.overflow
+    document.body.style.overflow = "hidden"
+    window.addEventListener("keydown", onKey)
+    return () => {
+      document.body.style.overflow = prevOverflow
+      window.removeEventListener("keydown", onKey)
+    }
+  }, [activeVideo])
+
+  const liveIcon = (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
+      <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+      <polyline points="15 3 21 3 21 9" />
+      <line x1="10" y1="14" x2="21" y2="3" />
+    </svg>
+  )
 
   return (
     <Section id="projects" title="Projects" subtitle="Things I've built" background="dark">
@@ -43,16 +73,22 @@ export default function Projects() {
                     Code
                   </a>
                 )}
-                {project.liveUrl && (
-                  <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="projects__link projects__link--live">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
-                      <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
-                      <polyline points="15 3 21 3 21 9" />
-                      <line x1="10" y1="14" x2="21" y2="3" />
-                    </svg>
-                    Live Demo
-                  </a>
-                )}
+                {project.liveUrl &&
+                  (isVideoDemo(project.liveUrl) ? (
+                    <button
+                      type="button"
+                      className="projects__link projects__link--live"
+                      onClick={() => setActiveVideo(project.liveUrl!)}
+                    >
+                      {liveIcon}
+                      Live Demo
+                    </button>
+                  ) : (
+                    <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="projects__link projects__link--live">
+                      {liveIcon}
+                      Live Demo
+                    </a>
+                  ))}
               </div>
             </div>
           </motion.article>
@@ -90,11 +126,20 @@ export default function Projects() {
                           Code
                         </a>
                       )}
-                      {project.liveUrl && (
-                        <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="projects__link projects__link--live">
-                          Live Demo
-                        </a>
-                      )}
+                      {project.liveUrl &&
+                        (isVideoDemo(project.liveUrl) ? (
+                          <button
+                            type="button"
+                            className="projects__link projects__link--live"
+                            onClick={() => setActiveVideo(project.liveUrl!)}
+                          >
+                            Live Demo
+                          </button>
+                        ) : (
+                          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="projects__link projects__link--live">
+                            Live Demo
+                          </a>
+                        ))}
                     </div>
                   </div>
                 </motion.article>
@@ -103,6 +148,43 @@ export default function Projects() {
           </>
         )}
       </div>
+
+      <AnimatePresence>
+        {activeVideo && (
+          <motion.div
+            className="video-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Video demo"
+            onClick={() => setActiveVideo(null)}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="video-modal__card"
+              onClick={(e) => e.stopPropagation()}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+            >
+              <button
+                type="button"
+                className="video-modal__close"
+                onClick={() => setActiveVideo(null)}
+                aria-label="Close video"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" width="20" height="20">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+              <video src={activeVideo} controls autoPlay playsInline />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </Section>
   )
 }

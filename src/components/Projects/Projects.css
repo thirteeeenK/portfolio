@@ -92,7 +92,10 @@
   color: var(--text-h);
   font-size: 0.82rem;
   font-weight: 500;
+  font-family: inherit;
   text-decoration: none;
+  background: none;
+  cursor: pointer;
   transition: border-color 0.2s, background 0.2s;
 }
 
@@ -140,4 +143,55 @@
   .projects__description {
     font-size: 0.82rem;
   }
+}
+
+.video-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.video-modal__card {
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+  padding: 1rem;
+}
+
+.video-modal__card video {
+  display: block;
+  width: 100%;
+  border-radius: 4px;
+  max-height: 78vh;
+  background: #000;
+}
+
+.video-modal__close {
+  position: absolute;
+  top: -16px;
+  right: -16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-h);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.video-modal__close:hover {
+  border-color: var(--accent-border);
+  background: var(--accent-bg);
 }
