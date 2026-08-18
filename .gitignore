@@ -24,3 +24,8 @@ dist-ssr
 *.sw?
 
 .playwright-mcp
+
+.agents/
+.impeccable/
+.impeccable
+.agents
