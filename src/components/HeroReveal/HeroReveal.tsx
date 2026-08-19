@@ -25,10 +25,16 @@ export interface HeroRevealProps {
   baseSrc?: string;
   /** URL for the flame image revealed by the spotlight. */
   flameSrc?: string;
+  /** URL for the static real-photo cutout shown in "photo" mode. */
+  photoSrc?: string;
   /** Lerp factor (0–1). Lower = smoother/slower. @default 0.1 */
   smoothing?: number;
   /** When true, disable the cursor-driven parallax shift. */
   disableCursorShift?: boolean;
+  /** Which hero image to show: voxel (spotlight) or static photo. */
+  mode?: "voxel" | "photo";
+  /** When true, play the localized line-split wipe over the hero. */
+  swapping?: boolean;
   /** Content rendered on top of the two layers. */
   children?: ReactNode;
 }
@@ -38,8 +44,11 @@ export interface HeroRevealProps {
 export default function HeroReveal({
   baseSrc = "/transparent-base.png",
   flameSrc = "/transparent-flame.png",
+  photoSrc = "/kenly-no-bg.png",
   smoothing = 0.1,
   disableCursorShift = false,
+  mode = "voxel",
+  swapping = false,
   children,
 }: HeroRevealProps) {
   const revealRef = useRef<HTMLElement>(null);
@@ -66,6 +75,14 @@ export default function HeroReveal({
     disableShiftRef.current = disableCursorShift;
   }, [disableCursorShift]);
 
+  // Track the current display mode (voxel/photo) so the RAF loop reads it
+  // without restarting the effect.
+  const modeRef = useRef(mode);
+
+  useEffect(() => {
+    modeRef.current = mode;
+  }, [mode]);
+
   // Reveal phases: loading → open → done
   const [phase, setPhase] = useState<"loading" | "open" | "done">("loading");
   const timersRef = useRef<number[]>([]);
@@ -75,7 +92,7 @@ export default function HeroReveal({
   useEffect(() => {
     let cancelled = false;
     const timers = timersRef.current;
-    Promise.all([preloadImage(baseSrc), preloadImage(flameSrc)])
+    Promise.all([preloadImage(baseSrc), preloadImage(flameSrc), preloadImage(photoSrc)])
       .then(() => {
         if (!cancelled) {
           setPhase("open");
@@ -98,7 +115,7 @@ export default function HeroReveal({
       cancelled = true;
       timers.forEach(clearTimeout);
     };
-  }, [baseSrc, flameSrc]);
+  }, [baseSrc, flameSrc, photoSrc]);
 
   const isRevealed = phase === "open" || phase === "done";
 
@@ -120,9 +137,7 @@ export default function HeroReveal({
 
   useEffect(() => {
     const section = revealRef.current;
-    const base = baseRef.current;
-    const fl = flameRef.current;
-    if (!section || !base || !fl) return;
+    if (!section) return;
 
     const onMouseMove = (e: MouseEvent) => updateCursor(e.clientX, e.clientY);
     const onMouseLeave = () => {
@@ -141,47 +156,60 @@ export default function HeroReveal({
     section.addEventListener("touchend", onMouseLeave, { passive: true });
 
     const tick = () => {
+      const base = baseRef.current;
+      const fl = flameRef.current;
+
+      // In photo mode the image is static — no spotlight, no parallax.
+      if (modeRef.current === "photo") {
+        if (base) base.style.transform = "";
+        if (fl) fl.style.transform = "";
+        rafRef.current = requestAnimationFrame(tick);
+        return;
+      }
+
       const target = mouseRef.current;
       const sm = smoothRef.current;
 
       sm.x = lerp(sm.x, target.x, smoothing);
       sm.y = lerp(sm.y, target.y, smoothing);
 
-      fl.style.setProperty("--x", `${(sm.x * 100).toFixed(2)}%`);
-      fl.style.setProperty("--y", `${(sm.y * 100).toFixed(2)}%`);
+      if (fl) {
+        fl.style.setProperty("--x", `${(sm.x * 100).toFixed(2)}%`);
+        fl.style.setProperty("--y", `${(sm.y * 100).toFixed(2)}%`);
 
-      // 1-second spotlight shrink decay when mouse stops moving
-      const now = performance.now();
-      const idleTime = now - lastMoveTimeRef.current;
-      const width = section.getBoundingClientRect().width || window.innerWidth;
-      const isMobile = width < 600;
-      const maxRadius = isMobile ? (width < 480 ? 100 : 140) : 200;
+        // 1-second spotlight shrink decay when mouse stops moving
+        const now = performance.now();
+        const idleTime = now - lastMoveTimeRef.current;
+        const width = section.getBoundingClientRect().width || window.innerWidth;
+        const isMobile = width < 600;
+        const maxRadius = isMobile ? (width < 480 ? 100 : 140) : 200;
 
-      const DECAY_TIME = 1000; // 1 second
-      let targetRadius = 0;
+        const DECAY_TIME = 1000; // 1 second
+        let targetRadius = 0;
 
-      if (hasMovedRef.current && idleTime < DECAY_TIME) {
-        const progress = idleTime / DECAY_TIME; // 0..1
-        const shrinkFactor = Math.pow(1 - progress, 1.3);
-        targetRadius = maxRadius * shrinkFactor;
+        if (hasMovedRef.current && idleTime < DECAY_TIME) {
+          const progress = idleTime / DECAY_TIME; // 0..1
+          const shrinkFactor = Math.pow(1 - progress, 1.3);
+          targetRadius = maxRadius * shrinkFactor;
+        }
+
+        // Fast expansion on cursor movement, smooth 0.8s decay shrink when idle
+        const lerpSpeed = targetRadius > smoothRadiusRef.current ? 0.3 : 0.12;
+        smoothRadiusRef.current = lerp(smoothRadiusRef.current, targetRadius, lerpSpeed);
+
+        fl.style.setProperty("--size", `${smoothRadiusRef.current.toFixed(1)}px`);
       }
-
-      // Fast expansion on cursor movement, smooth 0.8s decay shrink when idle
-      const lerpSpeed = targetRadius > smoothRadiusRef.current ? 0.3 : 0.12;
-      smoothRadiusRef.current = lerp(smoothRadiusRef.current, targetRadius, lerpSpeed);
-
-      fl.style.setProperty("--size", `${smoothRadiusRef.current.toFixed(1)}px`);
 
       const maxOffset = 12;
       const tx = ((sm.x - 0.5) * 2) * maxOffset;
       const ty = ((sm.y - 0.5) * 2) * maxOffset;
       const t = `translate(${tx.toFixed(1)}px, ${ty.toFixed(1)}px)`;
       if (disableShiftRef.current) {
-        base.style.transform = "";
-        fl.style.transform = "";
+        if (base) base.style.transform = "";
+        if (fl) fl.style.transform = "";
       } else {
-        base.style.transform = t;
-        fl.style.transform = t;
+        if (base) base.style.transform = t;
+        if (fl) fl.style.transform = t;
       }
 
       rafRef.current = requestAnimationFrame(tick);
@@ -222,21 +250,45 @@ export default function HeroReveal({
         <div className="hero-reveal__wipe" />
       </div>
 
-      {/* Base image — always visible */}
-      <div
-        ref={baseRef}
-        className="hero-reveal__layer hero-reveal__base"
-        style={{ backgroundImage: `url(${baseSrc})` }}
-        aria-hidden="true"
-      />
+      {mode === "photo" ? (
+        <div
+          ref={baseRef}
+          className="hero-reveal__layer hero-reveal__base"
+          style={{ backgroundImage: `url(${photoSrc})` }}
+          aria-hidden="true"
+        />
+      ) : (
+        <>
+          {/* Base image — always visible */}
+          <div
+            ref={baseRef}
+            className="hero-reveal__layer hero-reveal__base"
+            style={{ backgroundImage: `url(${baseSrc})` }}
+            aria-hidden="true"
+          />
 
-      {/* Flame image — masked by spotlight */}
-      <div
-        ref={flameRef}
-        className="hero-reveal__layer hero-reveal__flame"
-        style={{ backgroundImage: `url(${flameSrc})` }}
-        aria-hidden="true"
-      />
+          {/* Flame image — masked by spotlight */}
+          <div
+            ref={flameRef}
+            className="hero-reveal__layer hero-reveal__flame"
+            style={{ backgroundImage: `url(${flameSrc})` }}
+            aria-hidden="true"
+          />
+        </>
+      )}
+
+      {/* Localized wipe played on image-mode swap */}
+      {swapping && (
+        <div className="hero-reveal__swap" aria-hidden="true">
+          <div className="hero-reveal__swap-half hero-reveal__swap-half--top">
+            <div className="hero-reveal__swap-half-bg" />
+          </div>
+          <div className="hero-reveal__swap-half hero-reveal__swap-half--bottom">
+            <div className="hero-reveal__swap-half-bg" />
+          </div>
+          <div className="hero-reveal__swap-wipe" />
+        </div>
+      )}
 
       {/* Foreground content */}
       <div

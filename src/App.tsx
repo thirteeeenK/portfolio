@@ -19,6 +19,9 @@ import ThemeReveal from './components/ThemeReveal/ThemeReveal'
 import './App.css'
 
 type Theme = "dark" | "light"
+type HeroImage = "voxel" | "photo"
+const HERO_SPLIT_MS = 500
+const HERO_DONE_MS = 1800
 
 function App() {
   const [scrollSplit, setScrollSplit] = useState(false)
@@ -46,6 +49,46 @@ function App() {
     setWiping(theme === "dark" ? "light" : "dark")
   }
 
+  const [heroImage, setHeroImage] = useState<HeroImage>(() => {
+    try {
+      return localStorage.getItem("hero-image") === "photo" ? "photo" : "voxel"
+    } catch {
+      return "voxel"
+    }
+  })
+  const [heroSwapping, setHeroSwapping] = useState(false)
+  const heroSwapTimersRef = useRef<number[]>([])
+
+  const handleToggleHeroImage = () => {
+    if (heroSwapping) return
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    const next: HeroImage = heroImage === "voxel" ? "photo" : "voxel"
+    const persist = () => {
+      try {
+        localStorage.setItem("hero-image", next)
+      } catch {
+        /* ignore */
+      }
+    }
+    if (reduced) {
+      setHeroImage(next)
+      persist()
+      return
+    }
+    setHeroSwapping(true)
+    const swap = window.setTimeout(() => {
+      setHeroImage(next)
+      persist()
+    }, HERO_SPLIT_MS)
+    const done = window.setTimeout(() => setHeroSwapping(false), HERO_DONE_MS)
+    heroSwapTimersRef.current.push(swap, done)
+  }
+
+  useEffect(() => {
+    const timers = heroSwapTimersRef.current
+    return () => timers.forEach(window.clearTimeout)
+  }, [])
+
   useEffect(() => {
     const onScroll = () => {
       if (activatedRef.current) return
@@ -60,7 +103,12 @@ function App() {
 
   return (
     <KineticGrid theme={theme}>
-      <Navbar theme={theme} onToggleTheme={handleToggleTheme} />
+      <Navbar
+        theme={theme}
+        onToggleTheme={handleToggleTheme}
+        heroMode={heroImage}
+        onToggleHeroImage={handleToggleHeroImage}
+      />
 
       {wiping && (
         <ThemeReveal
@@ -72,7 +120,7 @@ function App() {
       <div className="hero-spacer" />
 
       <div ref={heroRef} className={`hero-wrapper${scrollSplit ? ' hero-wrapper--split' : ''}`}>
-        <HeroReveal disableCursorShift={scrollSplit} />
+        <HeroReveal disableCursorShift={scrollSplit} mode={heroImage} swapping={heroSwapping} />
 
         <section className="hero-text">
           <h1 className="hero-text__name">{personal.name}</h1>

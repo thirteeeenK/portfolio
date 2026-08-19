@@ -23,11 +23,17 @@
   position: relative;
 }
 
-.navbar__theme {
+.navbar__actions {
   position: absolute;
   right: 0;
   top: 50%;
   transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.navbar__action {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -39,11 +45,11 @@
   transition: color 0.2s;
 }
 
-.navbar__theme:hover {
+.navbar__action:hover {
   color: var(--text-h);
 }
 
-.navbar__theme:focus-visible {
+.navbar__action:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 4px;
   border-radius: 2px;
@@ -109,7 +115,7 @@
     justify-content: flex-end;
   }
 
-  .navbar__theme {
+  .navbar__actions {
     position: static;
     transform: none;
     margin-right: 0.75rem;
