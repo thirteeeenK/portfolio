@@ -115,6 +115,10 @@
     justify-content: flex-end;
   }
 
+  .navbar__action {
+    padding: 8px;
+  }
+
   .navbar__actions {
     position: static;
     transform: none;

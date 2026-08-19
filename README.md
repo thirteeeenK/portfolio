@@ -235,7 +235,7 @@ Then update the `og:url` / `og:image` metas in `index.html` to your live domain.
 
 | Command | Description |
 | --- | --- |
-| `npm run dev` | Start dev server with HMR |
+| `npm run dev` | Start dev server with HMR | 
 | `npm run build` | Typecheck + production build (`tsc -b && vite build`) |
 | `npm run lint` | ESLint (flat config) |
 | `npm run preview` | Preview the built site locally |

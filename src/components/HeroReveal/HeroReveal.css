@@ -241,14 +241,14 @@
   .hero-reveal::after {
     background: linear-gradient(
       to bottom,
-      transparent 25%,
-      var(--bg) 70%
+      transparent 75%,
+      var(--bg) 100%
     );
   }
 
   .hero-reveal__layer {
-    background-size: 100% auto;
-    background-position: center 15%;
+    background-size: cover;
+    background-position: center;
   }
 
   .hero-reveal__flame {
@@ -271,14 +271,14 @@
   .hero-reveal::after {
     background: linear-gradient(
       to bottom,
-      transparent 20%,
-      var(--bg) 65%
+      transparent 75%,
+      var(--bg) 100%
     );
   }
 
   .hero-reveal__layer {
-    background-size: 100% auto;
-    background-position: center 12%;
+    background-size: cover;
+    background-position: center;
   }
 
   .hero-reveal__flame {
