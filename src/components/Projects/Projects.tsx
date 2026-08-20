@@ -47,7 +47,7 @@ export default function Projects() {
             className="projects__card projects__card--featured"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, amount: 0.1, margin: "50px" }}
             transition={{ delay: i * 0.1, duration: 0.5 }}
           >
             <div className="projects__card-body">
@@ -104,7 +104,7 @@ export default function Projects() {
                   className="projects__card"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: true, amount: 0.1, margin: "50px" }}
                   transition={{ delay: 0.1 + i * 0.05, duration: 0.4 }}
                 >
                   <div className="projects__card-body">

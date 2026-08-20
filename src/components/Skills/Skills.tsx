@@ -21,7 +21,7 @@ export default function Skills() {
                     className="skills__tag"
                     initial={{ opacity: 0, scale: 0.8 }}
                     whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
+                    viewport={{ once: true, amount: 0.1, margin: "50px" }}
                     transition={{ delay: i * 0.05, duration: 0.3 }}
                   >
                     {skill.name}

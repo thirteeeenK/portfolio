@@ -7,13 +7,14 @@
   border: 1px solid var(--border);
   background: var(--bg);
   overflow: hidden;
-  transition: border-color 0.2s, transform 0.3s, box-shadow 0.3s;
+  transition: border-color 0.3s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, background-color 0.3s ease;
 }
 
 .projects__card:hover {
   border-color: var(--accent-border);
   transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  background: var(--section-accent);
 }
 
 .projects__card--featured {
@@ -96,12 +97,13 @@
   text-decoration: none;
   background: none;
   cursor: pointer;
-  transition: border-color 0.2s, background 0.2s;
+  transition: border-color 0.3s ease, background 0.3s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
 }
 
 .projects__link:hover {
   border-color: var(--accent-border);
   background: var(--accent-bg);
+  transform: scale(1.05);
 }
 
 .projects__link--live {
@@ -109,8 +111,10 @@
 }
 
 .projects__link--live:hover {
-  border-color: var(--accent-border);
+  border-color: var(--wipe-core);
   background: var(--accent-bg);
+  transform: scale(1.05);
+  box-shadow: 0 0 10px var(--wipe-glow);
 }
 
 .projects__subheading {

@@ -18,7 +18,7 @@
   outline: none;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
-  transition: border-color 0.2s, background 0.2s;
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .cta-btn:focus-visible {
@@ -27,8 +27,14 @@
 }
 
 .cta-btn:hover {
-  border-color: var(--accent-border);
+  border-color: var(--wipe-core);
   background: var(--accent-bg);
+  transform: scale(1.03) translateY(-1px);
+  box-shadow: 0 4px 15px rgba(0, 240, 255, 0.1), inset 0 0 10px rgba(255, 255, 255, 0.05);
+}
+
+.cta-btn:hover .cta-btn__arrow {
+  transform: translateX(4px);
 }
 
 .cta-btn__fill,
@@ -49,4 +55,5 @@
   stroke-linecap: round;
   stroke-linejoin: round;
   fill: none;
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
 }

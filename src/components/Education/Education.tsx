@@ -13,7 +13,7 @@ export default function Education() {
             className="education__item"
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, amount: 0.1, margin: "50px" }}
             transition={{ delay: i * 0.1, duration: 0.4 }}
           >
             <div className="education__timeline">

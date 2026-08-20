@@ -25,7 +25,7 @@ export default function TechStackSection() {
                     className="techstack__item"
                     initial={{ opacity: 0, y: 16 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
+                    viewport={{ once: true, amount: 0.1, margin: "50px" }}
                     transition={{ delay: i * 0.04, duration: 0.35 }}
                   >
                     <TechIcon name={item.name} />
