@@ -289,7 +289,7 @@
   }
 
   .hero-reveal__photo--no-shades {
-    transform: translate(3px, 3px) scale(1.05);
+    transform: translate(3px) scale(1.05);
     transform-origin: 50% 40%;
   }
 
@@ -330,6 +330,10 @@
 
   .hero-reveal__photo--no-shades {
     transform: translate(3px, 3px) scale(1.05);
+    transform-origin: 50% 40%;
+  }
+  .hero-reveal__photo--shades {
+    transform: translate(18px, 3px) scale(1.05);
     transform-origin: 50% 40%;
   }
 
