@@ -57,6 +57,7 @@ export default function HeroReveal({
   const revealRef = useRef<HTMLElement>(null);
   const baseRef = useRef<HTMLDivElement>(null);
   const flameRef = useRef<HTMLDivElement>(null);
+  const photoRevealRef = useRef<HTMLDivElement>(null);
 
   // Raw mouse position (target).
   const mouseRef = useRef({ x: 0.5, y: 0.5 });
@@ -166,17 +167,43 @@ export default function HeroReveal({
     const tick = () => {
       const base = baseRef.current;
       const fl = flameRef.current;
+      const photoReveal = photoRevealRef.current;
+      const target = mouseRef.current;
+      const sm = smoothRef.current;
 
-      // In photo mode the image is static — no spotlight, no parallax.
+      // ── Photo mode: base stays static, opposite-shade variant is revealed by spotlight
       if (modeRef.current === "photo") {
         if (base) base.style.transform = "";
         if (fl) fl.style.transform = "";
+
+        // drive the masked reveal layer (opposite shades) with the same idle-shrink logic as voxel
+        sm.x = lerp(sm.x, target.x, smoothing);
+        sm.y = lerp(sm.y, target.y, smoothing);
+
+        if (photoReveal) {
+          photoReveal.style.setProperty("--x", `${(sm.x * 100).toFixed(2)}%`);
+          photoReveal.style.setProperty("--y", `${(sm.y * 100).toFixed(2)}%`);
+
+          const now = performance.now();
+          const idleTime = now - lastMoveTimeRef.current;
+          const width = section.getBoundingClientRect().width || window.innerWidth;
+          const isMobile = width < 600;
+          const maxRadius = isMobile ? (width < 480 ? 100 : 140) : 200;
+          const DECAY_TIME = 1000;
+          let targetRadius = 0;
+          if (hasMovedRef.current && idleTime < DECAY_TIME) {
+            const progress = idleTime / DECAY_TIME;
+            const shrinkFactor = Math.pow(1 - progress, 1.3);
+            targetRadius = maxRadius * shrinkFactor;
+          }
+          const lerpSpeed = targetRadius > smoothRadiusRef.current ? 0.3 : 0.12;
+          smoothRadiusRef.current = lerp(smoothRadiusRef.current, targetRadius, lerpSpeed);
+          photoReveal.style.setProperty("--size", `${smoothRadiusRef.current.toFixed(1)}px`);
+        }
+
         rafRef.current = requestAnimationFrame(tick);
         return;
       }
-
-      const target = mouseRef.current;
-      const sm = smoothRef.current;
 
       sm.x = lerp(sm.x, target.x, smoothing);
       sm.y = lerp(sm.y, target.y, smoothing);
@@ -237,6 +264,9 @@ export default function HeroReveal({
 
   /* ── Render ─────────────────────────────────────────── */
 
+  const photoRevealVariant = photoVariant === "shades" ? ("no-shades" as const) : ("shades" as const);
+  const photoRevealSrc = photoRevealVariant === "shades" ? "/with-shades-cropped.png" : "/no-shades-cropped.png";
+
   const curtainCls = [
     "hero-reveal__curtain",
     phase === "open" ? "hero-reveal__curtain--open" : "",
@@ -263,6 +293,13 @@ export default function HeroReveal({
           <div
             className={`hero-reveal__photo hero-reveal__photo--${photoVariant}`}
             style={{ backgroundImage: `url(${photoSrc})` }}
+            aria-hidden="true"
+          />
+          {/* Opposite shade variant revealed by cursor spotlight (mirrors voxel flame) */}
+          <div
+            ref={photoRevealRef}
+            className={`hero-reveal__photo hero-reveal__photo--reveal hero-reveal__photo--${photoRevealVariant}`}
+            style={{ backgroundImage: `url(${photoRevealSrc})` }}
             aria-hidden="true"
           />
         </div>

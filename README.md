@@ -76,6 +76,8 @@ A **fully static real-photo cutout** (no spotlight, no parallax, no effects). Cl
 
 **Theme-aware variant [new]:** in photo mode the cutout is tied to the light/dark theme — **dark → `no-shades-cropped.png`**, **light → `with-shades-cropped.png`** (`src/App.tsx:105-106`). The swap is hidden behind the `ThemeReveal` curtain (`SPLIT_MS = 500`) so it never flashes; fine-tune the dark variant's alignment/zoom in `src/components/HeroReveal/HeroReveal.css` (`.hero-reveal__photo--no-shades { transform: translate(...) scale(...) }` at `900px` / `600px` / `480px`).
 
+**Hover spotlight [new]:** in photo mode, moving the cursor (or dragging a finger on touch) **reveals the opposite shade variant** through a radial spotlight — **light shows with-shades, hover reveals no-shades; dark shows no-shades, hover reveals with-shades** — mirroring the voxel reveal. Idle for ~1s and the spotlight shrinks away (same decay as voxel, `src/components/HeroReveal/HeroReveal.tsx:167-206`, masked layer `.hero-reveal__photo--reveal` in `HeroReveal.css:131`).
+
 ### Replacing the hero images
 
 The images are loaded from the `public/` folder by default. **Rename your images to match exactly, or the hero breaks:**

@@ -128,6 +128,26 @@
   transform-origin: 50% 40%;
 }
 
+.hero-reveal__photo--reveal {
+  z-index: 2;
+  pointer-events: none;
+  /* start hidden until cursor moves; RAF drives --size with idle-shrink decay */
+  --size: 0px;
+  -webkit-mask-image: radial-gradient(
+    circle var(--size, 0px) at var(--x, 50%) var(--y, 50%),
+    black 0%,
+    black 55%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    circle var(--size, 0px) at var(--x, 50%) var(--y, 50%),
+    black 0%,
+    black 55%,
+    transparent 100%
+  );
+  will-change: mask-image, -webkit-mask-image;
+}
+
 .hero-reveal__flame {
   z-index: 2;
   pointer-events: none;
@@ -289,7 +309,7 @@
   }
 
   .hero-reveal__photo--no-shades {
-    transform: translate(3px) scale(1.05);
+    transform: translate(3px, 3px) scale(1.05);
     transform-origin: 50% 40%;
   }
 
