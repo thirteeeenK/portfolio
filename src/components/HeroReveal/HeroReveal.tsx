@@ -171,14 +171,23 @@ export default function HeroReveal({
       const target = mouseRef.current;
       const sm = smoothRef.current;
 
-      // ── Photo mode: base stays static, opposite-shade variant is revealed by spotlight
+      // ── Photo mode: whole photo drifts with cursor + opposite-shade variant revealed by spotlight
       if (modeRef.current === "photo") {
-        if (base) base.style.transform = "";
         if (fl) fl.style.transform = "";
 
-        // drive the masked reveal layer (opposite shades) with the same idle-shrink logic as voxel
         sm.x = lerp(sm.x, target.x, smoothing);
         sm.y = lerp(sm.y, target.y, smoothing);
+
+        // cursor parallax drift (same as voxel, applied to the wrapper so base+reveal stay aligned)
+        const maxOffset = 12;
+        const tx = ((sm.x - 0.5) * 2) * maxOffset;
+        const ty = ((sm.y - 0.5) * 2) * maxOffset;
+        const t = `translate(${tx.toFixed(1)}px, ${ty.toFixed(1)}px)`;
+        if (disableShiftRef.current) {
+          if (base) base.style.transform = "";
+        } else {
+          if (base) base.style.transform = t;
+        }
 
         if (photoReveal) {
           photoReveal.style.setProperty("--x", `${(sm.x * 100).toFixed(2)}%`);
