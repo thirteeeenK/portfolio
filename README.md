@@ -72,7 +72,9 @@ A **two-layer image reveal**. Two PNG images are stacked and blended with a curs
 
 ### Photo mode
 
-A **fully static real-photo cutout** (no spotlight, no parallax, no effects). Click the navbar button again to flip back to the voxel animation. The choice is remembered across reloads (`localStorage: "hero-image"`). Every swap plays a short line-split wipe animation over the hero image; with `prefers-reduced-motion` the switch is instant instead.
+A **fully static real-photo cutout** (no spotlight, no parallax, no effects). Click the navbar button again to flip back to the voxel animation — this toggle was introduced in `d88f0b1` (`feat: added a switch to real photo for the hero section`). The choice is remembered across reloads (`localStorage: "hero-image"`). Every swap plays a short line-split wipe animation over the hero image; with `prefers-reduced-motion` the switch is instant instead.
+
+**Theme-aware variant [new]:** in photo mode the cutout is tied to the light/dark theme — **dark → `no-shades-cropped.png`**, **light → `with-shades-cropped.png`** (`src/App.tsx:105-106`). The swap is hidden behind the `ThemeReveal` curtain (`SPLIT_MS = 500`) so it never flashes; fine-tune the dark variant's alignment/zoom in `src/components/HeroReveal/HeroReveal.css` (`.hero-reveal__photo--no-shades { transform: translate(...) scale(...) }` at `900px` / `600px` / `480px`).
 
 ### Replacing the hero images
 
@@ -82,7 +84,8 @@ The images are loaded from the `public/` folder by default. **Rename your images
 | --- | --- | --- |
 | `transparent-base.png` | Your voxel photo (base layer) | Portrait or square, transparent background is **not** required |
 | `transparent-flame.png` | Your glowing / flame-cutout photo (reveal layer) | Must be a **transparent PNG cutout** (background removed) so only the glowing subject appears over the base |
-| `kenly-no-bg.png` | Your real photo (photo mode) | Must be a **transparent PNG cutout** (background removed) so it floats on the grid |
+| `with-shades-cropped.png` | Real photo — **light theme** (`photo` mode) | Must be a **transparent PNG cutout** so it floats on the grid |
+| `no-shades-cropped.png` | Real photo — **dark theme** (`photo` mode) | Same cutout **without** shades; keep identical canvas/size so the swap stays grid-aligned |
 
 **Step-by-step:**
 
@@ -90,7 +93,7 @@ The images are loaded from the `public/` folder by default. **Rename your images
 2. Create a glowing version of the same photo (e.g. a flame overlay, neon outline, or duplicate layer with a bright glow) and **remove its background** so the rest is transparent.
 3. Save it as `public/transparent-flame.png`.
 4. Both files must be **exactly the same dimensions** so the reveal lines up.
-5. For photo mode, add your real photo as a transparent cutout named `kenly-no-bg.png`.
+5. For photo mode, add **two** transparent cutouts: `public/with-shades-cropped.png` (light) and `public/no-shades-cropped.png` (dark). Keep the **same canvas size** for both so the theme swap stays grid-aligned. If they drift, nudge `.hero-reveal__photo--no-shades` in `src/components/HeroReveal/HeroReveal.css` (`translate` / `scale`).
 6. Restart the dev server (`npm run dev`) — Vite serves static files from `public/` at the root, so changes there appear instantly without touching code.
 
 ### Where the filenames are defined
@@ -101,14 +104,15 @@ If you want to use different filenames (or per-page heroes), override the props 
 <HeroReveal
   baseSrc="/my-photo.png"            // default: "/transparent-base.png"
   flameSrc="/my-glow.png"            // default: "/transparent-flame.png"
-  photoSrc="/my-face.png"            // default: "/kenly-no-bg.png"
+  photoSrc="/my-face.png"            // default: "/with-shades-cropped.png"; dark uses "/no-shades-cropped.png"
+  photoVariant="shades"              // "shades" | "no-shades" — picked from theme in src/App.tsx:105-106
   mode="voxel"                       // "voxel" | "photo"
   swapping={heroSwapping}            // true while the swap wipe plays
   disableCursorShift={scrollSplit}   // freezes parallax after scrolling
 />
 ```
 
-Defaults live in `src/components/HeroReveal/HeroReveal.tsx`. The animation also supports `smoothing` (lerp factor, default `0.1`).
+`App.tsx` derives `photoSrc`/`photoVariant` from `theme` and `HeroReveal` preloads both (`src/components/HeroReveal/HeroReveal.tsx:98-99`). Defaults live in `src/components/HeroReveal/HeroReveal.tsx`. The animation also supports `smoothing` (lerp factor, default `0.1`). Tweak `translate`/`scale` for `.hero-reveal__photo--no-shades` in `HeroReveal.css` if the two cutouts need alignment.
 
 > **Note:** `src/assets/hero.png` is an orphaned leftover from an older design and is **not** used anywhere. You can delete it.
 
@@ -199,7 +203,8 @@ Array of `{ id, name, issuer, date, url?, credentialId? }`. `url` links to a ver
 | --- | --- | --- |
 | `transparent-base.png` | `public/` | Hero voxel base layer (rename your photo to this) |
 | `transparent-flame.png` | `public/` | Hero voxel reveal layer (transparent glowing cutout) |
-| `kenly-no-bg.png` | `public/` | Real-photo hero cutout for photo mode (transparent PNG) |
+| `with-shades-cropped.png` | `public/` | Real-photo hero — **light** theme (photo mode) |
+| `no-shades-cropped.png` | `public/` | Real-photo hero — **dark** theme (photo mode, e.g. no shades) |
 | `meta.png` | `public/` | Social share image (Open Graph) |
 | `cat3.png` | `public/` | Browser tab favicon — referenced in `index.html` line 5 |
 | `favicon.svg` | `public/` | SVG favicon (available, currently unused — `index.html` uses `cat3.png`) |
