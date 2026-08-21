@@ -101,6 +101,10 @@ function App() {
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
+  // Photo variant: dark = no shades, light = shades (curtain hides the swap at 500ms)
+  const photoSrc = theme === "light" ? "/with-shades-cropped.png" : "/no-shades-cropped.png"
+  const photoVariant = theme === "light" ? ("shades" as const) : ("no-shades" as const)
+
   return (
     <KineticGrid theme={theme}>
       <Navbar
@@ -120,7 +124,7 @@ function App() {
       <div className="hero-spacer" />
 
       <div ref={heroRef} className={`hero-wrapper${scrollSplit ? ' hero-wrapper--split' : ''}`}>
-        <HeroReveal disableCursorShift={scrollSplit} mode={heroImage} swapping={heroSwapping} />
+        <HeroReveal disableCursorShift={scrollSplit} mode={heroImage} swapping={heroSwapping} photoSrc={photoSrc} photoVariant={photoVariant} />
 
         <section className="hero-text">
           <h1 className="hero-text__name">{personal.name}</h1>

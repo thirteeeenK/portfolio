@@ -27,6 +27,8 @@ export interface HeroRevealProps {
   flameSrc?: string;
   /** URL for the static real-photo cutout shown in "photo" mode. */
   photoSrc?: string;
+  /** Variant to apply grid-aligned offset for no-shades (shorter by ~1 cell). */
+  photoVariant?: "shades" | "no-shades";
   /** Lerp factor (0–1). Lower = smoother/slower. @default 0.1 */
   smoothing?: number;
   /** When true, disable the cursor-driven parallax shift. */
@@ -44,7 +46,8 @@ export interface HeroRevealProps {
 export default function HeroReveal({
   baseSrc = "/transparent-base.png",
   flameSrc = "/transparent-flame.png",
-  photoSrc = "/kenly-no-bg.png",
+  photoSrc = "/with-shades-cropped.png",
+  photoVariant = "shades",
   smoothing = 0.1,
   disableCursorShift = false,
   mode = "voxel",
@@ -87,12 +90,17 @@ export default function HeroReveal({
   const [phase, setPhase] = useState<"loading" | "open" | "done">("loading");
   const timersRef = useRef<number[]>([]);
 
-  /* ── Preload images ───────────────────────────────── */
+  /* ── Preload images (both photo variants so theme toggle is instant behind curtain) ── */
 
   useEffect(() => {
     let cancelled = false;
     const timers = timersRef.current;
-    Promise.all([preloadImage(baseSrc), preloadImage(flameSrc), preloadImage(photoSrc)])
+    Promise.all([
+      preloadImage(baseSrc),
+      preloadImage(flameSrc),
+      preloadImage("/with-shades-cropped.png"),
+      preloadImage("/no-shades-cropped.png"),
+    ])
       .then(() => {
         if (!cancelled) {
           setPhase("open");
@@ -115,7 +123,7 @@ export default function HeroReveal({
       cancelled = true;
       timers.forEach(clearTimeout);
     };
-  }, [baseSrc, flameSrc, photoSrc]);
+  }, [baseSrc, flameSrc]);
 
   const isRevealed = phase === "open" || phase === "done";
 
@@ -251,12 +259,13 @@ export default function HeroReveal({
       </div>
 
       {mode === "photo" ? (
-        <div
-          ref={baseRef}
-          className="hero-reveal__layer hero-reveal__base"
-          style={{ backgroundImage: `url(${photoSrc})` }}
-          aria-hidden="true"
-        />
+        <div ref={baseRef} className="hero-reveal__layer hero-reveal__base hero-reveal__base--photo" aria-hidden="true">
+          <div
+            className={`hero-reveal__photo hero-reveal__photo--${photoVariant}`}
+            style={{ backgroundImage: `url(${photoSrc})` }}
+            aria-hidden="true"
+          />
+        </div>
       ) : (
         <>
           {/* Base image — always visible */}

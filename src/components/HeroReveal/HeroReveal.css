@@ -106,6 +106,28 @@
   pointer-events: none;
 }
 
+.hero-reveal__base--photo {
+  background: none;
+}
+
+.hero-reveal__photo {
+  position: absolute;
+  inset: 0;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  will-change: transform;
+}
+
+.hero-reveal__photo--shades {
+  transform: none;
+}
+
+.hero-reveal__photo--no-shades {
+  transform: translate(-37px, 32px) scale(1.05);
+  transform-origin: 50% 40%;
+}
+
 .hero-reveal__flame {
   z-index: 2;
   pointer-events: none;
@@ -235,6 +257,16 @@
     background-position: center;
     background-size: 55% auto;
   }
+
+  .hero-reveal__photo {
+    background-position: center;
+    background-size: 55% auto;
+  }
+
+  .hero-reveal__photo--no-shades {
+    transform: translate(3px, 3px) scale(1.05);
+    transform-origin: 50% 40%;
+  }
 }
 
 @media (max-width: 600px) {
@@ -249,6 +281,16 @@
   .hero-reveal__layer {
     background-size: cover;
     background-position: center;
+  }
+
+  .hero-reveal__photo {
+    background-size: cover;
+    background-position: center;
+  }
+
+  .hero-reveal__photo--no-shades {
+    transform: translate(3px, 3px) scale(1.05);
+    transform-origin: 50% 40%;
   }
 
   .hero-reveal__flame {
@@ -279,6 +321,16 @@
   .hero-reveal__layer {
     background-size: cover;
     background-position: center;
+  }
+
+  .hero-reveal__photo {
+    background-size: cover;
+    background-position: center;
+  }
+
+  .hero-reveal__photo--no-shades {
+    transform: translate(3px, 3px) scale(1.05);
+    transform-origin: 50% 40%;
   }
 
   .hero-reveal__flame {
