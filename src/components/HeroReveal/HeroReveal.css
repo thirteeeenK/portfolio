@@ -104,6 +104,8 @@
 .hero-reveal__base {
   z-index: 1;
   pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
 }
 
 .hero-reveal__base--photo {
@@ -117,6 +119,8 @@
   background-position: center;
   background-repeat: no-repeat;
   will-change: transform;
+  -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
 }
 
 .hero-reveal__photo--shades {
@@ -133,70 +137,134 @@
   pointer-events: none;
   /* start hidden until cursor moves; RAF drives --size with idle-shrink decay */
   --size: 0px;
-  -webkit-mask-image: radial-gradient(
-    circle var(--size, 0px) at var(--x, 50%) var(--y, 50%),
-    black 0%,
-    black 55%,
-    transparent 100%
-  );
-  mask-image: radial-gradient(
-    circle var(--size, 0px) at var(--x, 50%) var(--y, 50%),
-    black 0%,
-    black 55%,
-    transparent 100%
-  );
+  -webkit-mask-image:
+    radial-gradient(
+      circle var(--size, 0px) at var(--x, 50%) var(--y, 50%),
+      black 0%,
+      black 55%,
+      transparent 100%
+    ),
+    linear-gradient(to bottom, black 70%, transparent 100%);
+  mask-image:
+    radial-gradient(
+      circle var(--size, 0px) at var(--x, 50%) var(--y, 50%),
+      black 0%,
+      black 55%,
+      transparent 100%
+    ),
+    linear-gradient(to bottom, black 70%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
   will-change: mask-image, -webkit-mask-image;
 }
 
 .hero-reveal__flame {
   z-index: 2;
   pointer-events: none;
-  -webkit-mask-image: radial-gradient(
-    circle var(--size, 200px) at var(--x, 50%) var(--y, 50%),
-    black 0%,
-    black 55%,
-    transparent 100%
-  );
-  mask-image: radial-gradient(
-    circle var(--size, 200px) at var(--x, 50%) var(--y, 50%),
-    black 0%,
-    black 55%,
-    transparent 100%
-  );
+  -webkit-mask-image:
+    radial-gradient(
+      circle var(--size, 200px) at var(--x, 50%) var(--y, 50%),
+      black 0%,
+      black 55%,
+      transparent 100%
+    ),
+    linear-gradient(to bottom, black 70%, transparent 100%);
+  mask-image:
+    radial-gradient(
+      circle var(--size, 200px) at var(--x, 50%) var(--y, 50%),
+      black 0%,
+      black 55%,
+      transparent 100%
+    ),
+    linear-gradient(to bottom, black 70%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
   will-change: mask-image, -webkit-mask-image;
 }
 
 @media (max-width: 768px) {
   .hero-reveal__flame {
-    -webkit-mask-image: radial-gradient(
-      circle var(--size, 140px) at var(--x, 50%) var(--y, 50%),
-      black 0%,
-      black 55%,
-      transparent 100%
-    );
-    mask-image: radial-gradient(
-      circle var(--size, 140px) at var(--x, 50%) var(--y, 50%),
-      black 0%,
-      black 55%,
-      transparent 100%
-    );
+    -webkit-mask-image:
+      radial-gradient(
+        circle var(--size, 140px) at var(--x, 50%) var(--y, 50%),
+        black 0%,
+        black 55%,
+        transparent 100%
+      ),
+      linear-gradient(to bottom, black 65%, transparent 100%);
+    mask-image:
+      radial-gradient(
+        circle var(--size, 140px) at var(--x, 50%) var(--y, 50%),
+        black 0%,
+        black 55%,
+        transparent 100%
+      ),
+      linear-gradient(to bottom, black 65%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+  }
+  .hero-reveal__photo--reveal {
+    -webkit-mask-image:
+      radial-gradient(
+        circle var(--size, 0px) at var(--x, 50%) var(--y, 50%),
+        black 0%,
+        black 55%,
+        transparent 100%
+      ),
+      linear-gradient(to bottom, black 65%, transparent 100%);
+    mask-image:
+      radial-gradient(
+        circle var(--size, 0px) at var(--x, 50%) var(--y, 50%),
+        black 0%,
+        black 55%,
+        transparent 100%
+      ),
+      linear-gradient(to bottom, black 65%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
   }
 }
 
 @media (max-width: 480px) {
   .hero-reveal__flame {
-    -webkit-mask-image: radial-gradient(
-      circle var(--size, 100px) at var(--x, 50%) var(--y, 50%),
-      black 0%,
-      black 55%,
-      transparent 100%
-    );
-    mask-image: radial-gradient(
-      circle var(--size, 100px) at var(--x, 50%) var(--y, 50%),
-      black 0%,
-      black 55%,
-      transparent 100%
-    );
+    -webkit-mask-image:
+      radial-gradient(
+        circle var(--size, 100px) at var(--x, 50%) var(--y, 50%),
+        black 0%,
+        black 55%,
+        transparent 100%
+      ),
+      linear-gradient(to bottom, black 60%, transparent 100%);
+    mask-image:
+      radial-gradient(
+        circle var(--size, 100px) at var(--x, 50%) var(--y, 50%),
+        black 0%,
+        black 55%,
+        transparent 100%
+      ),
+      linear-gradient(to bottom, black 60%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+  }
+  .hero-reveal__photo--reveal {
+    -webkit-mask-image:
+      radial-gradient(
+        circle var(--size, 0px) at var(--x, 50%) var(--y, 50%),
+        black 0%,
+        black 55%,
+        transparent 100%
+      ),
+      linear-gradient(to bottom, black 60%, transparent 100%);
+    mask-image:
+      radial-gradient(
+        circle var(--size, 0px) at var(--x, 50%) var(--y, 50%),
+        black 0%,
+        black 55%,
+        transparent 100%
+      ),
+      linear-gradient(to bottom, black 60%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
   }
 }
 
@@ -273,14 +341,58 @@
     pointer-events: none;
   }
 
-  .hero-reveal__layer {
-    background-position: center;
-    background-size: 55% auto;
+  .hero-reveal__base {
+    -webkit-mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
   }
 
   .hero-reveal__photo {
     background-position: center;
     background-size: 55% auto;
+    -webkit-mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
+  }
+
+  .hero-reveal__flame {
+    -webkit-mask-image:
+      radial-gradient(
+        circle var(--size, 200px) at var(--x, 50%) var(--y, 50%),
+        black 0%,
+        black 55%,
+        transparent 100%
+      ),
+      linear-gradient(to bottom, black 65%, transparent 100%);
+    mask-image:
+      radial-gradient(
+        circle var(--size, 200px) at var(--x, 50%) var(--y, 50%),
+        black 0%,
+        black 55%,
+        transparent 100%
+      ),
+      linear-gradient(to bottom, black 65%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+  }
+
+  .hero-reveal__photo--reveal {
+    -webkit-mask-image:
+      radial-gradient(
+        circle var(--size, 0px) at var(--x, 50%) var(--y, 50%),
+        black 0%,
+        black 55%,
+        transparent 100%
+      ),
+      linear-gradient(to bottom, black 65%, transparent 100%);
+    mask-image:
+      radial-gradient(
+        circle var(--size, 0px) at var(--x, 50%) var(--y, 50%),
+        black 0%,
+        black 55%,
+        transparent 100%
+      ),
+      linear-gradient(to bottom, black 65%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
   }
 
   .hero-reveal__photo--no-shades {
@@ -298,6 +410,11 @@
     );
   }
 
+  .hero-reveal__base {
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  }
+
   .hero-reveal__layer {
     background-size: cover;
     background-position: center;
@@ -306,6 +423,8 @@
   .hero-reveal__photo {
     background-size: cover;
     background-position: center;
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
   }
 
   .hero-reveal__photo--no-shades {
@@ -314,18 +433,45 @@
   }
 
   .hero-reveal__flame {
-    -webkit-mask-image: radial-gradient(
-      circle var(--size, 140px) at var(--x, 50%) var(--y, 50%),
-      black 0%,
-      black 55%,
-      transparent 100%
-    );
-    mask-image: radial-gradient(
-      circle var(--size, 140px) at var(--x, 50%) var(--y, 50%),
-      black 0%,
-      black 55%,
-      transparent 100%
-    );
+    -webkit-mask-image:
+      radial-gradient(
+        circle var(--size, 140px) at var(--x, 50%) var(--y, 50%),
+        black 0%,
+        black 55%,
+        transparent 100%
+      ),
+      linear-gradient(to bottom, black 60%, transparent 100%);
+    mask-image:
+      radial-gradient(
+        circle var(--size, 140px) at var(--x, 50%) var(--y, 50%),
+        black 0%,
+        black 55%,
+        transparent 100%
+      ),
+      linear-gradient(to bottom, black 60%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+  }
+
+  .hero-reveal__photo--reveal {
+    -webkit-mask-image:
+      radial-gradient(
+        circle var(--size, 140px) at var(--x, 50%) var(--y, 50%),
+        black 0%,
+        black 55%,
+        transparent 100%
+      ),
+      linear-gradient(to bottom, black 60%, transparent 100%);
+    mask-image:
+      radial-gradient(
+        circle var(--size, 140px) at var(--x, 50%) var(--y, 50%),
+        black 0%,
+        black 55%,
+        transparent 100%
+      ),
+      linear-gradient(to bottom, black 60%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
   }
 }
 
@@ -338,6 +484,11 @@
     );
   }
 
+  .hero-reveal__base {
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  }
+
   .hero-reveal__layer {
     background-size: cover;
     background-position: center;
@@ -346,6 +497,8 @@
   .hero-reveal__photo {
     background-size: cover;
     background-position: center;
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
   }
 
   .hero-reveal__photo--no-shades {
@@ -358,18 +511,45 @@
   }
 
   .hero-reveal__flame {
-    -webkit-mask-image: radial-gradient(
-      circle var(--size, 120px) at var(--x, 50%) var(--y, 50%),
-      black 0%,
-      black 55%,
-      transparent 100%
-    );
-    mask-image: radial-gradient(
-      circle var(--size, 120px) at var(--x, 50%) var(--y, 50%),
-      black 0%,
-      black 55%,
-      transparent 100%
-    );
+    -webkit-mask-image:
+      radial-gradient(
+        circle var(--size, 120px) at var(--x, 50%) var(--y, 50%),
+        black 0%,
+        black 55%,
+        transparent 100%
+      ),
+      linear-gradient(to bottom, black 60%, transparent 100%);
+    mask-image:
+      radial-gradient(
+        circle var(--size, 120px) at var(--x, 50%) var(--y, 50%),
+        black 0%,
+        black 55%,
+        transparent 100%
+      ),
+      linear-gradient(to bottom, black 60%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+  }
+
+  .hero-reveal__photo--reveal {
+    -webkit-mask-image:
+      radial-gradient(
+        circle var(--size, 120px) at var(--x, 50%) var(--y, 50%),
+        black 0%,
+        black 55%,
+        transparent 100%
+      ),
+      linear-gradient(to bottom, black 60%, transparent 100%);
+    mask-image:
+      radial-gradient(
+        circle var(--size, 120px) at var(--x, 50%) var(--y, 50%),
+        black 0%,
+        black 55%,
+        transparent 100%
+      ),
+      linear-gradient(to bottom, black 60%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
   }
 }
 
