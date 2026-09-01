@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/cat3.png" />
@@ -26,16 +26,12 @@
       ;(function () {
         try {
           var stored = localStorage.getItem('theme')
-          var theme = stored === 'light' || stored === 'dark'
-            ? stored
-            : window.matchMedia('(prefers-color-scheme: light)').matches
-              ? 'light'
-              : 'dark'
+          var theme = stored === 'light' || stored === 'dark' ? stored : 'light' // ponytail: force light default on first visit, ignore OS
           var meta = document.querySelector('meta[name="theme-color"]')
           if (meta) meta.setAttribute('content', theme === 'light' ? '#fafafa' : '#0a0a0a')
           document.documentElement.setAttribute('data-theme', theme)
         } catch (e) {
-          document.documentElement.setAttribute('data-theme', 'dark')
+          document.documentElement.setAttribute('data-theme', 'light')
         }
       })()
     </script>
