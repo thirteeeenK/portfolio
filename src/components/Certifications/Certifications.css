@@ -1,34 +1,37 @@
 .certs {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 0.85rem;
 }
 
 .certs__card {
   display: flex;
   align-items: flex-start;
   gap: 1rem;
-  padding: 1.25rem;
-  border-radius: 6px;
-  border: 1px solid var(--border);
-  background: var(--bg);
+  padding: 1.35rem;
+  border-radius: 14px;
+  border: 1px solid var(--hairline);
+  background: var(--card-bg);
   text-decoration: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.22s, transform 0.22s, box-shadow 0.22s;
 }
 
 .certs__card:hover {
-  border-color: var(--accent-border);
+  border-color: var(--card-border);
+  transform: translateY(-2px);
+  box-shadow: var(--card-shadow);
 }
 
 .certs__icon {
   flex-shrink: 0;
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 6px;
-  border: 1px solid var(--border);
+  border-radius: 10px;
+  border: 1px solid var(--hairline);
+  background: var(--code-bg);
   color: var(--text);
 }
 
@@ -41,21 +44,26 @@
 
 .certs__name {
   font-family: var(--heading);
-  font-size: 0.92rem;
+  font-size: 1rem;
   font-weight: 600;
+  letter-spacing: -0.015em;
   color: var(--text-h);
   margin: 0;
+  line-height: 1.3;
 }
 
 .certs__issuer {
-  font-size: 0.82rem;
+  font-family: var(--sans);
+  font-size: 0.84rem;
   color: var(--text);
   margin: 0;
+  line-height: 1.4;
 }
 
 .certs__date,
 .certs__credential {
-  font-size: 0.75rem;
-  color: var(--text);
   font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--text);
+  opacity: 0.7;
 }

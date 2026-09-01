@@ -1,24 +1,51 @@
 .contact {
   text-align: center;
-  max-width: 440px;
+  max-width: 720px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .contact__text {
-  font-size: 0.92rem;
-  line-height: 1.65;
-  color: var(--text-soft);
-  margin-bottom: 1.5rem;
+  font-family: var(--heading);
+  font-size: clamp(1.32rem, 3vw, 1.9rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.35;
+  color: var(--text-h);
+  text-wrap: balance;
+  max-width: 560px;
+  margin-bottom: 0.5rem;
 }
 
 .contact__actions {
-  margin-bottom: 1.5rem;
+  margin: 1rem 0 1.25rem;
 }
 
 .contact__actions .cta-btn {
-  font-family: var(--mono);
-  font-size: 0.82rem;
+  font-family: var(--sans);
+  font-size: 0.92rem;
+  font-weight: 500;
+  padding: 0.85rem 1.6rem;
+  border-radius: 999px;
+  background: var(--text-h);
+  color: var(--bg);
+  border-color: var(--text-h);
   letter-spacing: 0;
+}
+
+.contact__actions .cta-btn:hover {
+  background: var(--text-h);
+  opacity: 0.92;
+  transform: translateY(-1px);
+  box-shadow: var(--card-shadow);
+}
+
+:root[data-theme="light"] .contact__actions .cta-btn {
+  background: #111;
+  color: #fff;
+  border-color: #111;
 }
 
 .contact__social {

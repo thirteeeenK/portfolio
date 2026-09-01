@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react"
-import { FiMoon, FiSun, FiUser, FiGrid } from "react-icons/fi"
+import ToggleGroup from "../ToggleGroup/ToggleGroup"
 import { navItems } from "../../data/navigation"
 import "./Navbar.css"
 
@@ -8,15 +8,19 @@ interface NavbarProps {
   onToggleTheme: () => void
   heroMode?: "voxel" | "photo"
   onToggleHeroImage?: () => void
+  bgMode?: "grid" | "network"
+  onToggleBg?: () => void
+  revealed?: boolean
 }
 
-export default function Navbar({ theme, onToggleTheme, heroMode, onToggleHeroImage }: NavbarProps) {
+export default function Navbar({ theme, onToggleTheme, heroMode, onToggleHeroImage, bgMode, onToggleBg, revealed = true }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const navRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
+    onScroll()
     window.addEventListener("scroll", onScroll, { passive: true })
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
@@ -33,27 +37,25 @@ export default function Navbar({ theme, onToggleTheme, heroMode, onToggleHeroIma
 
   const handleNavClick = () => setOpen(false)
 
+  const isRevealed = revealed || scrolled
+
   return (
-    <header className={`navbar${scrolled ? " navbar--scrolled" : ""}`}>
+    <header className={`navbar${scrolled ? " navbar--scrolled" : ""}${isRevealed ? " navbar--revealed" : " navbar--hidden"}`} aria-hidden={!isRevealed && !scrolled ? true : undefined}>
       <div className="navbar__container">
         <div className="navbar__actions">
-          <button
-            className="navbar__action"
-            onClick={onToggleHeroImage}
-            aria-label={heroMode === "photo" ? "Switch to voxel avatar" : "Switch to real photo"}
-            title={heroMode === "photo" ? "Switch to voxel avatar" : "Switch to real photo"}
-          >
-            {heroMode === "photo" ? <FiGrid size={18} /> : <FiUser size={18} />}
-          </button>
-
-          <button
-            className="navbar__action"
-            onClick={onToggleTheme}
-            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-            title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-          >
-            {theme === "dark" ? <FiSun size={18} /> : <FiMoon size={18} />}
-          </button>
+          {isRevealed ? (
+            <ToggleGroup
+              theme={theme}
+              heroMode={heroMode}
+              onToggleHeroImage={onToggleHeroImage}
+              bgMode={bgMode}
+              onToggleBg={onToggleBg}
+              onToggleTheme={onToggleTheme}
+              variant="nav"
+            />
+          ) : (
+            <div aria-hidden="true" style={{ width: 96, height: 28 }} />
+          )}
         </div>
 
         <button

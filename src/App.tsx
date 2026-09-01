@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
+import { LayoutGroup } from 'framer-motion'
 import HeroReveal from './components/HeroReveal/HeroReveal'
 import CtaButton from './components/CtaButton/CtaButton'
 import Navbar from './components/Navbar/Navbar'
+import ToggleGroup from './components/ToggleGroup/ToggleGroup'
 import About from './components/About/About'
 import Skills from './components/Skills/Skills'
 import TechStackSection from './components/TechStack/TechStack'
@@ -14,12 +16,15 @@ import Footer from './components/Footer/Footer'
 import SocialLinks from './components/SocialLinks/SocialLinks'
 import Typewriter from './components/Typewriter/Typewriter'
 import KineticGrid from './components/KineticGrid/KineticGrid'
+import ParticleNetwork from './components/ParticleNetwork/ParticleNetwork'
 import { personal } from './data/personal'
 import ThemeReveal from './components/ThemeReveal/ThemeReveal'
+import './components/ToggleGroup/ToggleGroup.css'
 import './App.css'
 
 type Theme = "dark" | "light"
 type HeroImage = "voxel" | "photo"
+type BgMode = "grid" | "network"
 const HERO_SPLIT_MS = 500
 const HERO_DONE_MS = 1800
 
@@ -45,8 +50,39 @@ function App() {
   }
 
   const handleToggleTheme = () => {
-    if (wiping) return
+    if (wiping || bgWiping) return
     setWiping(theme === "dark" ? "light" : "dark")
+  }
+
+  const [bgMode, setBgMode] = useState<BgMode>(() => {
+    try {
+      const v = localStorage.getItem("bg-mode")
+      if (v === "grid" || v === "network") return v
+      return "network"
+    } catch {
+      return "network"
+    }
+  })
+  const [bgWiping, setBgWiping] = useState<BgMode | null>(null)
+
+  const applyBg = (target: BgMode) => {
+    setBgMode(target)
+    try {
+      localStorage.setItem("bg-mode", target)
+    } catch {
+      /* ignore */
+    }
+  }
+
+  const handleToggleBg = () => {
+    if (wiping || bgWiping) return
+    const next: BgMode = bgMode === "grid" ? "network" : "grid"
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    if (reduced) {
+      applyBg(next)
+      return
+    }
+    setBgWiping(next)
   }
 
   const [heroImage, setHeroImage] = useState<HeroImage>(() => {
@@ -90,36 +126,49 @@ function App() {
   }, [])
 
   useEffect(() => {
-    const onScroll = () => {
+    const check = () => {
       if (activatedRef.current) return
       if (window.scrollY > 2) {
         activatedRef.current = true
         setScrollSplit(true)
       }
     }
-    window.addEventListener("scroll", onScroll, { passive: true })
-    return () => window.removeEventListener("scroll", onScroll)
+    check()
+    window.addEventListener("scroll", check, { passive: true })
+    return () => window.removeEventListener("scroll", check)
   }, [])
 
   // Photo variant: dark = no shades, light = shades (curtain hides the swap at 500ms)
   const photoSrc = theme === "light" ? "/with-shades-cropped.png" : "/no-shades-cropped.png"
   const photoVariant = theme === "light" ? ("shades" as const) : ("no-shades" as const)
 
-  return (
-    <KineticGrid theme={theme}>
-      <Navbar
-        theme={theme}
-        onToggleTheme={handleToggleTheme}
-        heroMode={heroImage}
-        onToggleHeroImage={handleToggleHeroImage}
-      />
-
-      {wiping && (
-        <ThemeReveal
-          onComplete={() => applyTheme(wiping)}
-          onDone={() => setWiping(null)}
+  const content = (
+    <>
+      <LayoutGroup>
+        <Navbar
+          theme={theme}
+          onToggleTheme={handleToggleTheme}
+          heroMode={heroImage}
+          onToggleHeroImage={handleToggleHeroImage}
+          bgMode={bgMode}
+          onToggleBg={handleToggleBg}
+          revealed={scrollSplit}
         />
-      )}
+
+        <div className={`hero-dock${scrollSplit ? " hero-dock--hidden" : " hero-dock--visible"}`} aria-hidden={scrollSplit}>
+          {!scrollSplit && (
+            <ToggleGroup
+              theme={theme}
+              heroMode={heroImage}
+              onToggleHeroImage={handleToggleHeroImage}
+              bgMode={bgMode}
+              onToggleBg={handleToggleBg}
+              onToggleTheme={handleToggleTheme}
+              variant="hero"
+            />
+          )}
+        </div>
+      </LayoutGroup>
 
       <div className="hero-spacer" />
 
@@ -159,7 +208,26 @@ function App() {
       </main>
 
       <Footer />
-    </KineticGrid>
+    </>
+  )
+
+  return (
+    <>
+      {wiping && (
+        <ThemeReveal onComplete={() => applyTheme(wiping)} onDone={() => setWiping(null)} />
+      )}
+      {bgWiping && (
+        <ThemeReveal onComplete={() => applyBg(bgWiping)} onDone={() => setBgWiping(null)} />
+      )}
+      {bgMode === "grid" ? (
+        <KineticGrid theme={theme}>{content}</KineticGrid>
+      ) : (
+        <div className="kinetic-grid">
+          <ParticleNetwork theme={theme} />
+          <div className="kinetic-grid__content">{content}</div>
+        </div>
+      )}
+    </>
   )
 }
 

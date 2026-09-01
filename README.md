@@ -1,250 +1,185 @@
-# Personal Portfolio 
+# Personal Portfolio
 
-An animated personal portfolio with **light & dark themes**, **Vibe Coded** and built with **React 19**, **TypeScript**, and **Vite 8**. Features a cursor-driven two-layer hero reveal animation (switchable to a static real-photo cutout), a kinetic grid canvas background, and fully data-driven content — every section is customized from `src/data/` without touching components.
+Animated personal portfolio — **light & dark themes**, **Vibe Coded**, **React 19 + TypeScript 6 + Vite 8**. Cursor-driven two-layer hero reveal (voxel ↔ static cutout), switchable background (**Kinetic Grid** warp grid vs **Particle Network** via `tsParticles` — default **network**), full-screen wipe transitions, and fully data-driven content (`src/data/`).
 
-Feel free to modify and improve.
+> Feel free to modify and improve. All content is data — no component edits needed to customize.
 
-## ✦ Features
+## Features
 
-- **Two-layer voxel hero** — a cursor-driven spotlight reveal blending two images.
-- **Hero image toggle** — one click swaps the voxel avatar for a static real photo (navbar button, persisted).
-- **Light & dark mode** — full-screen wipe transition, remembers your choice.
-- **Kinetic grid background** — canvas grid that warps toward the cursor with click ripples.
-- **Video demo modal** — projects can play an inline video instead of linking out.
-- **Typewriter hero titles** — rotating role/headline text.
-- **Data-driven everything** — content lives in `src/data/`, no component edits needed.
-- **100% static** — no backend, no environment variables, no build-time secrets.
+- **Two-layer voxel hero** — stacked PNGs with cursor spotlight reveal; drifts with cursor (parallax), idle shrink.
+- **Hero image toggle** — swaps voxel animation ↔ static real-photo cutout (navbar + hero dock); persisted `localStorage: "hero-image"`, theme-aware cutout (`no-shades` dark / `with-shades` light), local line-split wipe, instant on `prefers-reduced-motion`.
+- **Hero dock FLIP** — three toggles centered at hero (`ToggleGroup` / `framer-motion` `LayoutGroup` + `layoutId`) → FLIP to navbar on scroll (`scrollY > 2`); navbar hidden until split; hero-dock centered at `1.15rem`.
+- **Two switchable backgrounds** — **Kinetic Grid** (canvas grid warps to cursor, click ripples) ↔ **Particle Network** (`tsparticles/slim`, 85 dots, links 160px, grab/push, 0.7 speed); default `network`; toggle persisted `localStorage: "bg-mode"`; shares `ThemeReveal` curtain wipe (500/1800ms) with theme, guarded against concurrent wipes; theme-aware colors (blue `#2563eb` light / white dark).
+- **Light & dark mode** — sun/moon toggle with full-screen curtain wipe; persists `localStorage: "theme"`, FOUC guard in `index.html` (`prefers-color-scheme` fallback), `<meta theme-color>` sync.
+- **Premium editorial sections** — hairline dividers, card tokens (`--hairline/--card-bg/--card-border/--card-shadow`), `Switzer` + `IBM Plex Mono` type system (see below); `Section` hairline dividers, `About` lead with left accent, `TechStack` icon cards, `Projects` featured vs grid, `Contact` centered CTA.
+- **Video demo modal** — `liveUrl` ending `.mp4/.webm/.mov/.ogg` opens inline modal (`public/videos/...`).
+- **Typewriter hero titles** — rotating roles from `personal.titles`.
+- **100% static** — no backend, no env vars, no secrets.
 
 ## Tech Stack
 
 | Layer | Technology |
 | --- | --- |
-| Framework | React 19 + TypeScript |
-| Build tool | Vite 8 |
-| Styling | Custom CSS (per-component files) + Tailwind CSS 4 |
-| Animation | framer-motion, custom RAF loops (hero reveal, kinetic grid, typewriter) |
-| Icons | react-icons |
-| Compiler | React Compiler (via `@rolldown/plugin-babel` + `babel-plugin-react-compiler`) |
-| Linting | ESLint 10 (flat config) |
+| Framework | React 19 + TypeScript 6 |
+| Build | Vite 8 + `@vitejs/plugin-react` |
+| Styling | Custom CSS per-component + Tailwind CSS 4 (`@tailwindcss/vite`) |
+| Animation | `framer-motion` 12 (LayoutGroup/FLIP), custom RAF loops (hero, grid) |
+| Particles | `@tsparticles/react` + `@tsparticles/slim` (`tsparticles` engine) |
+| Icons | `react-icons` (Feather `Fi*`, Bootstrap `Bs*`) |
+| Fonts | **Switzer** (Fontshare, 400/500/600/700) + **IBM Plex Mono** (Google, 400/500) — vars `--heading/--sans/--mono` in `src/index.css` |
+| Compiler | React Compiler via `@rolldown/plugin-babel` + `babel-plugin-react-compiler` |
+| Lint | ESLint 10 (flat `eslint.config.js`) |
+
+## Typography
+
+One-line swap system:
+
+- `index.html:17-20` — Fontshare Switzer + Google IBM Plex Mono (preconnect both)
+- `src/index.css:26-29` — `--heading`/`--sans` = `'Switzer'`, `--mono` = `'IBM Plex Mono'`; `h1,h2,h3` weight `700`, section/project titles `600`
+
+To change fonts, replace those 2 blocks only.
 
 ## Quick Start
 
 ```sh
-npm install       # install dependencies
-npm run dev       # start the dev server (HMR) at http://localhost:5173
-npm run build     # typecheck (tsc -b) + production build into dist/
-npm run preview   # preview the production build locally
-npm run lint      # run ESLint
+npm install
+npm run dev       # HMR at http://localhost:5173
+npm run build     # tsc -b && vite build → dist/
+npm run preview   # preview built site
+npm run lint      # eslint .
 ```
+
+Requires Node 18+.
 
 ## Project Structure
 
 ```
-├── index.html               # HTML shell, meta tags, favicon
-├── public/                  # static assets served at the root (hero images, meta.png, favicon)
+├── index.html               # shell, OG meta, theme FOUC guard, fonts
+├── public/                  # static roots (hero PNGs, meta.png, favicon, videos/)
 ├── src/
-│   ├── App.tsx              # page layout: hero → sections → footer
-│   ├── components/          # one folder per component (<Name>/<Name>.tsx + .css)
-│   │   ├── HeroReveal/      # two-layer hero reveal + photo mode (+ WordReveal)
-│   │   ├── ThemeReveal/     # full-screen wipe used on theme change
-│   │   ├── KineticGrid/     # canvas grid background (cursor warp + ripples)
-│   │   ├── Navbar/          # fixed top navigation + theme/hero-image toggles
-│   │   ├── Typewriter/      # rotating hero titles
-│   │   ├── Section/  CtaButton/  TechIcon/  SocialLinks/  Footer/
-│   │   ├── About/  Skills/  TechStack/  Projects/
-│   │   ├── Experience/  Education/  Certifications/  Contact/
+│   ├── App.tsx              # layout: hero → sections → footer; bg/theme/hero state + wipes
+│   ├── App.css              # hero-text + hero-dock
+│   ├── index.css            # tokens (--bg/--text/--hairline/--card-*) + fonts
+│   ├── components/
+│   │   ├── HeroReveal/      # voxel + photo reveal (+ WordReveal, swap wipe)
+│   │   ├── ThemeReveal/     # full-screen curtain wipe (theme + bg)
+│   │   ├── KineticGrid/     # canvas warp grid
+│   │   ├── ParticleNetwork/ # tsparticles network (tsparticles/slim)
+│   │   ├── ToggleGroup/     # 3-toggle pill (hero & nav variants, layoutId FLIP)
+│   │   ├── Navbar/          # fixed nav + toggles (revealed/hidden slide)
+│   │   ├── Typewriter/  Section/  CtaButton/  TechIcon/  SocialLinks/  Footer/
+│   │   ├── About/  Skills/  TechStack/  Projects/  Education/  Certifications/  Contact/
 │   │   └── ...
-│   └── data/                # ★ ALL content lives here (see below)
+│   └── data/                # ★ all content (no component edits needed)
+└── vite.config.ts           # React + Babel React Compiler
 ```
 
----
+## The Hero Section
 
-## ✦ The Hero Section (Important — Read First)
-
-The hero has **two modes**, switched with the small icon button in the navbar (beside the light/dark toggle):
+Two modes via navbar/hero-dock button (beside theme/bg toggles):
 
 ### Voxel mode (default)
 
-A **two-layer image reveal**. Two PNG images are stacked and blended with a cursor-driven spotlight:
+Two stacked PNGs + cursor spotlight:
 
-- **Base layer** — always visible. This is your main photo.
-- **Flame layer** — hidden behind a radial mask that follows the cursor/`touch`; moving the mouse "reveals" it like a glow.
+- **Base** — `public/transparent-base.png` — full photo, masked linear bottom fade.
+- **Flame** — `public/transparent-flame.png` — transparent cutout with glow, revealed via radial mask (`--x/--y/--size`) + idle decay; `flame` layer `source-in` blend.
 
 ### Photo mode
 
-A **fully static real-photo cutout** (no spotlight, no parallax, no effects). Click the navbar button again to flip back to the voxel animation — this toggle was introduced in `d88f0b1` (`feat: added a switch to real photo for the hero section`). The choice is remembered across reloads (`localStorage: "hero-image"`). Every swap plays a short line-split wipe animation over the hero image; with `prefers-reduced-motion` the switch is instant instead.
+Fully static cutout, still interactive:
 
-**Theme-aware variant [new]:** in photo mode the cutout is tied to the light/dark theme — **dark → `no-shades-cropped.png`**, **light → `with-shades-cropped.png`** (`src/App.tsx:105-106`). The swap is hidden behind the `ThemeReveal` curtain (`SPLIT_MS = 500`) so it never flashes; fine-tune the dark variant's alignment/zoom in `src/components/HeroReveal/HeroReveal.css` (`.hero-reveal__photo--no-shades { transform: translate(...) scale(...) }` at `900px` / `600px` / `480px`).
+- **Theme-aware variant** — `App.tsx:142-143` picks `with-shades-cropped.png` (light) vs `no-shades-cropped.png` (dark); curtain hides swap at `HERO_SPLIT_MS=500`.
+- **Hover spotlight** — moving cursor (or finger drag on touch) reveals *opposite* shade through same radial mask; idle 1s shrinks it (`HeroReveal.tsx:167-206`, `.hero-reveal__photo--reveal`). Whole photo drifts ~12px parallax (`HeroReveal.tsx:182-191`), frozen when `scrollSplit` or `disableCursorShift`.
 
-**Hover spotlight + drift [new]:** in photo mode, moving the cursor (or dragging a finger on touch) **reveals the opposite shade variant** through a radial spotlight — **light shows with-shades, hover reveals no-shades; dark shows no-shades, hover reveals with-shades** — mirroring the voxel reveal. Idle for ~1s and the spotlight shrinks away (same decay as voxel, `src/components/HeroReveal/HeroReveal.tsx:167-206`, masked layer `.hero-reveal__photo--reveal` in `HeroReveal.css:131`). The whole photo (base + reveal) also **drifts with the cursor** (up to ~12px parallax, `HeroReveal.tsx:182-191`, respecting `disableCursorShift` / `scrollSplit` in `src/App.tsx:127`), just like voxel — so the photo feels alive on hover.
+Swap plays `hero-reveal__swap` line-split wipe (`1800ms`); `prefers-reduced-motion` swaps instantly.
 
-### Replacing the hero images
+### Replacing hero images
 
-The images are loaded from the `public/` folder by default. **Rename your images to match exactly, or the hero breaks:**
+`public/` filenames (must match exactly or hero breaks):
 
-| File (in `public/`) | What it is | Requirements |
+| File | Role | Requirement |
 | --- | --- | --- |
-| `transparent-base.png` | Your voxel photo (base layer) | Portrait or square, transparent background is **not** required |
-| `transparent-flame.png` | Your glowing / flame-cutout photo (reveal layer) | Must be a **transparent PNG cutout** (background removed) so only the glowing subject appears over the base |
-| `with-shades-cropped.png` | Real photo — **light theme** (`photo` mode) | Must be a **transparent PNG cutout** so it floats on the grid |
-| `no-shades-cropped.png` | Real photo — **dark theme** (`photo` mode) | Same cutout **without** shades; keep identical canvas/size so the swap stays grid-aligned |
+| `transparent-base.png` | Voxel base | Portrait/square, transparent optional |
+| `transparent-flame.png` | Voxel reveal | **Transparent PNG cutout** (glow subject only) |
+| `with-shades-cropped.png` | Photo mode — light | **Transparent PNG cutout**, identical canvas to dark variant |
+| `no-shades-cropped.png` | Photo mode — dark | Same canvas/size; nudge `HeroReveal.css:131` `.hero-reveal__photo--no-shades { transform: translate(...) scale(...) }` at 900/600/480 if misaligned |
 
-**Step-by-step:**
+Steps: drop into `public/`, keep same dimensions per pair, restart dev server. Custom names via `App.tsx` props: `baseSrc`/`flameSrc`/`photoSrc`/`photoVariant`/`mode` (`HeroReveal.tsx` defaults). `src/assets/hero.png` is unused leftover.
 
-1. Put your photo in `public/` and rename it to `transparent-base.png`.
-2. Create a glowing version of the same photo (e.g. a flame overlay, neon outline, or duplicate layer with a bright glow) and **remove its background** so the rest is transparent.
-3. Save it as `public/transparent-flame.png`.
-4. Both files must be **exactly the same dimensions** so the reveal lines up.
-5. For photo mode, add **two** transparent cutouts: `public/with-shades-cropped.png` (light) and `public/no-shades-cropped.png` (dark). Keep the **same canvas size** for both so the theme swap stays grid-aligned. If they drift, nudge `.hero-reveal__photo--no-shades` in `src/components/HeroReveal/HeroReveal.css` (`translate` / `scale`).
-6. Restart the dev server (`npm run dev`) — Vite serves static files from `public/` at the root, so changes there appear instantly without touching code.
+### Backgrounds — Grid vs Network
 
-### Where the filenames are defined
+| Mode | Impl | Behavior |
+| --- | --- | --- |
+| `grid` | `KineticGrid.tsx` — canvas | 55px cells, 260px influence warp 24px, dot 0.7/28px, ripples on click, theme-aware `--hairline` palette |
+| `network` | `ParticleNetwork.tsx` — `tsparticles` | `loadSlim`, 85 dots size 2-4.2 link 160px 1.3px grab 210/push 3, colors `white` dark / `blue #2563eb` light, `fullScreen: false` over page bg |
 
-If you want to use different filenames (or per-page heroes), override the props on the `HeroReveal` component in `src/App.tsx`:
+Default `network` (`App.tsx:56-65`, `bg-mode` localStorage). Toggle via grid/stars button (`BsGrid3X3Gap`/`BsStars`) in navbar or hero dock; reuses `ThemeReveal` (`bgWiping` guard `wiping||bgWiping`); `prefers-reduced-motion` toggles instantly without wipe and stops particle `move`.
 
-```tsx
-<HeroReveal
-  baseSrc="/my-photo.png"            // default: "/transparent-base.png"
-  flameSrc="/my-glow.png"            // default: "/transparent-flame.png"
-  photoSrc="/my-face.png"            // default: "/with-shades-cropped.png"; dark uses "/no-shades-cropped.png"
-  photoVariant="shades"              // "shades" | "no-shades" — picked from theme in src/App.tsx:105-106
-  mode="voxel"                       // "voxel" | "photo"
-  swapping={heroSwapping}            // true while the swap wipe plays
-  disableCursorShift={scrollSplit}   // freezes parallax after scrolling
-/>
-```
+## Light & Dark Mode + Background Wipe
 
-`App.tsx` derives `photoSrc`/`photoVariant` from `theme` and `HeroReveal` preloads both (`src/components/HeroReveal/HeroReveal.tsx:98-99`). Defaults live in `src/components/HeroReveal/HeroReveal.tsx`. The animation also supports `smoothing` (lerp factor, default `0.1`). Tweak `translate`/`scale` for `.hero-reveal__photo--no-shades` in `HeroReveal.css` if the two cutouts need alignment.
+Shared `ThemeReveal` curtain (`ThemeReveal.tsx`): `SPLIT_MS=500` (curtain reaches center, `onComplete` flips `data-theme` or `bg-mode`), `DONE_MS=1800` (curtain opens, `onDone` clears). Inline script in `index.html:23-38` sets `data-theme` from `localStorage` → `prefers-color-scheme` → dark. Guard: `handleToggleTheme`/`handleToggleBg` return if `wiping||bgWiping`. Colors are CSS vars in `src/index.css` (`:root` dark + `:root[data-theme="light"]` overrides).
 
-> **Note:** `src/assets/hero.png` is an orphaned leftover from an older design and is **not** used anywhere. You can delete it.
+## Customizing Content (`src/data/`)
 
-### Hero text
+Edit TS files, site updates. Comments show disabled entries.
 
-The hero heading, typewriter titles, tagline, and buttons all come from data files — see below.
+- **`personal.ts`** — `name`, `titles[]` (typewriter), `tagline`, `bio[]`, `location`, `email` (mailto), `resumeUrl` (`#` hides).
+- **`navigation.ts`** — `{ label, href }[]`; `href` must match section `id`.
+- **`social-links.ts`** — `{ name, url, icon }`; icon keys `github/linkedin/twitter/email`; replace placeholder URLs.
+- **`skills.ts`** — `{ name, category }[]` (Design/Frontend/Backend/Soft Skills…).
+- **`tech-stack.ts`** — `{ name, category, url }[]`; categories `Frontend|Backend|Database|DevOps|Tools|Language|AI Tools`.
+- **`projects.ts`** — `{ id, title, description, technologies[], thumbnail?, githubUrl?, liveUrl?, featured, category }`; `liveUrl` `.mp4/.webm/.mov/.ogg` → video modal from `public/videos/`.
+- **`experience.ts`** — `{ id, company, role, location?, startDate, endDate ("Present"), description[], technologies?, companyUrl? }` — currently **not rendered** (`App.tsx` import commented).
+- **`education.ts`** — `{ id, school, level, program, year }`.
+- **`certifications.ts`** — `{ id, name, issuer, date, url?, credentialId? }`.
 
----
-
-## ✦ Light & Dark Mode
-
-The site ships with both themes, toggled by the sun/moon button in the navbar. Switching plays a full-screen curtain wipe (`ThemeReveal`) before applying the new theme.
-
-- The choice persists in `localStorage: "theme"`.
-- On first visit, an inline script in `index.html` reads the stored theme and falls back to the OS preference via `prefers-color-scheme` (this also prevents a flash of the wrong theme).
-- Theme colors are CSS variables defined in `src/index.css`: the `:root` block holds dark-mode values, and `:root[data-theme="light"]` overrides them for light mode.
-- The `<meta name="theme-color">` value is updated at runtime to match the active theme.
-
----
-
-## ✦ Customizing Content (`src/data/`)
-
-All content is data-driven. Edit these TypeScript files and the site updates automatically. Comments in each file show disabled entries — uncomment them to enable.
-
-### `src/data/personal.ts` — name, bio, email
-
-| Field | Description |
-| --- | --- |
-| `name` | Your full name (hero heading) |
-| `titles` | Array of rotating typewriter titles (hero + about) |
-| `tagline` | Short line under the titles in the hero |
-| `bio` | Array of paragraphs for the About section |
-| `location` | Shown in About / Contact |
-| `email` | Drives the "Contact" mailto button |
-| `resumeUrl` | Link for "View Resume". Set to `#` or remove it to hide the button |
-
-### `src/data/navigation.ts` — navbar links
-
-`navItems` is an array of `{ label, href }`. `href` must match a section `id` (e.g. `#about`, `#skills`, `#projects`, `#experience`, `#contact`).
-
-### `src/data/social-links.ts` — social icons
-
-| Field | Description |
-| --- | --- |
-| `name` | Tooltip text |
-| `url` | Full URL — replace placeholders like `https://linkedin.com/in` and `https://twitter.com` with your real profiles |
-| `icon` | Key of the icon to render (`github`, `linkedin`, `twitter`, `email`) |
-
-### `src/data/skills.ts` — skill chips
-
-Array of `{ name, category }`. Categories: `Design`, `Frontend`, `Backend`, `Soft Skills`, etc. Add or remove entries freely.
-
-### `src/data/tech-stack.ts` — tech stack grid
-
-Array of `{ name, category, url }`. Categories: `Frontend` | `Backend` | `Database` | `DevOps` | `Tools` | `Language` | `AI Tools`. Set `url` to a site link (shown when hovering/clicking the tech icon).
-
-### `src/data/projects.ts` — project cards
-
-| Field | Description |
-| --- | --- |
-| `id` | Unique string identifier |
-| `title` | Card title |
-| `description` | One-to-two sentence summary |
-| `technologies` | Array of tech labels |
-| `thumbnail` | (Optional) image path |
-| `githubUrl` | (Optional) repo link — comment it out if unused |
-| `liveUrl` | (Optional) live demo link. If the value ends with `.mp4`, `.webm`, `.mov`, or `.ogg`, the "Live Demo" button opens an **inline video modal** instead of navigating away — drop the file in `public/videos/` and reference it as `/videos/your-demo.mp4` |
-| `featured` | `true` highlights the project |
-| `category` | `Frontend` / `Full-Stack` / etc. |
-
-### `src/data/experience.ts` — work history
-
-Array of `{ id, company, role, location?, startDate, endDate, description[], technologies?, companyUrl? }`. `endDate` can be the string `"Present"`. Replace the placeholder example jobs with your own history (and remove `companyUrl` if you have no company site).
-
-### `src/data/education.ts` — schools
-
-Array of `{ id, school, level, program, year }`.
-
-### `src/data/certifications.ts` — certifications
-
-Array of `{ id, name, issuer, date, url?, credentialId? }`. `url` links to a verification page (e.g. CodeCred), `credentialId` shows the credential number.
-
----
-
-## ✦ Images & Branding
+## Images & Branding
 
 | Asset | Location | Purpose |
 | --- | --- | --- |
-| `transparent-base.png` | `public/` | Hero voxel base layer (rename your photo to this) |
-| `transparent-flame.png` | `public/` | Hero voxel reveal layer (transparent glowing cutout) |
-| `with-shades-cropped.png` | `public/` | Real-photo hero — **light** theme (photo mode) |
-| `no-shades-cropped.png` | `public/` | Real-photo hero — **dark** theme (photo mode, e.g. no shades) |
-| `meta.png` | `public/` | Social share image (Open Graph) |
-| `cat3.png` | `public/` | Browser tab favicon — referenced in `index.html` line 5 |
-| `favicon.svg` | `public/` | SVG favicon (available, currently unused — `index.html` uses `cat3.png`) |
-| `icons.svg` | `public/` | Icon sprite (if used) |
-| `videos/recording.mp4` | `public/videos/` | Example project demo video (Delete Me card) |
+| `transparent-base.png` | `public/` | Voxel base |
+| `transparent-flame.png` | `public/` | Voxel glow cutout |
+| `with-shades-cropped.png` | `public/` | Photo — light |
+| `no-shades-cropped.png` | `public/` | Photo — dark |
+| `meta.png` | `public/` | OG share image (`index.html:15`) |
+| `cat3.png` | `public/` | Tab favicon (`index.html:5`) |
+| `favicon.svg` / `icons.svg` | `public/` | Unused alts |
+| `videos/recording.mp4` | `public/videos/` | Demo video example |
 
-The Open Graph `og:url` and `og:image` in `index.html` point to `https://johnkenlypamor.dev/` — update them to your own domain after deploying.
+Update `og:url`/`og:image` in `index.html:11-15` to your domain on deploy.
 
----
+## TypeScript Quirks
 
-## ✦ Deployment
+- `verbatimModuleSyntax: true` → `import type` for types
+- `erasableSyntaxOnly: true` → no enums/namespaces/param props
+- `noUnusedLocals` + `noUnusedParameters` are errors
+- Project refs: `tsconfig.app.json` (src) + `tsconfig.node.json` (vite.config)
+
+## Deployment
 
 ```sh
-npm run build   # outputs a static site to dist/
+npm run build   # static dist/
 ```
 
-Upload the contents of `dist/` to any static host:
+- **Vercel/Netlify** — build `npm run build`, output `dist`.
+- **GitHub Pages** — push `dist` to `gh-pages`.
 
-- **Vercel / Netlify** — connect the repo; build command `npm run build`, output directory `dist`.
-- **GitHub Pages** — push `dist/` (or use a workflow) to the `gh-pages` branch.
+Then update OG metas to live domain.
 
-Then update the `og:url` / `og:image` metas in `index.html` to your live domain.
+## Security Notes
 
----
-
-## ✦ Security Notes
-
-- `npm audit` reports **0 vulnerabilities**. Earlier advisories (`brace-expansion` DoS, `nanoid` loop) were transitive **dev-toolchain-only** dependencies — never shipped to the static site — and are fixed.
-- No environment variables, API keys, or credentials are used or stored in this repo.
-- The Contact section is a `mailto:` link only — there is no server-side form handling.
+- `npm audit` — 0 vulnerabilities (prior `brace-expansion`/`nanoid` were dev-only transitives).
+- No env vars / API keys.
+- Contact is `mailto:` only.
 
 ## Available Scripts
 
 | Command | Description |
 | --- | --- |
-| `npm run dev` | Start dev server with HMR | 
-| `npm run build` | Typecheck + production build (`tsc -b && vite build`) |
-| `npm run lint` | ESLint (flat config) |
-| `npm run preview` | Preview the built site locally |
+| `npm run dev` | Dev + HMR |
+| `npm run build` | `tsc -b && vite build` (typecheck first) |
+| `npm run lint` | ESLint flat |
+| `npm run preview` | Preview build |
 
-**Made and Vibe Coded with ❤️ for the community**
+**Made and Vibe Coded with ❤️**

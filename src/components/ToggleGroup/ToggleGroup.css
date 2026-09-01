@@ -1,0 +1,26 @@
+.toggle-group {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.toggle-group--hero {
+  gap: 0.5rem;
+  padding: 0.45rem 0.7rem;
+  background: color-mix(in srgb, var(--bg) 85%, transparent);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+}
+
+.toggle-group--hero .navbar__action {
+  padding: 8px;
+}
+
+@media (max-width: 768px) {
+  .toggle-group--hero {
+    gap: 0.4rem;
+    padding: 0.4rem 0.6rem;
+  }
+}

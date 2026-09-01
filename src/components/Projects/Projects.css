@@ -3,60 +3,70 @@
 }
 
 .projects__card {
-  border-radius: 6px;
-  border: 1px solid var(--border);
-  background: var(--bg);
+  border-radius: 14px;
+  border: 1px solid var(--hairline);
+  background: var(--card-bg);
   overflow: hidden;
-  transition: border-color 0.3s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, background-color 0.3s ease;
+  transition: border-color 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease;
 }
 
 .projects__card:hover {
-  border-color: var(--accent-border);
+  border-color: var(--card-border);
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-  background: var(--section-accent);
+  box-shadow: var(--card-shadow);
 }
 
 .projects__card--featured {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
+  border-color: var(--card-border);
 }
 
 .projects__card--featured .projects__card-body {
-  padding: 2rem;
+  padding: 2.15rem;
 }
 
 .projects__card-body {
-  padding: 1.5rem;
+  padding: 1.6rem;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.85rem;
 }
 
 .projects__badge {
   display: inline-flex;
   align-self: flex-start;
-  padding: 0.15rem 0.6rem;
-  border-radius: 3px;
-  border: 1px solid var(--border);
+  padding: 0.22rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid var(--hairline);
   color: var(--text);
-  font-size: 0.7rem;
-  font-weight: 600;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.08em;
 }
 
 .projects__title {
   font-family: var(--heading);
-  font-size: 1.15rem;
+  font-size: 1.22rem;
   font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
   color: var(--text-h);
   margin: 0;
+  text-wrap: balance;
+}
+
+.projects__card--featured .projects__title {
+  font-size: clamp(1.28rem, 2.2vw, 1.45rem);
 }
 
 .projects__description {
-  font-size: 0.88rem;
-  line-height: 1.6;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  line-height: 1.7;
   color: var(--text);
+  text-wrap: pretty;
 }
 
 .projects__techs {
@@ -68,13 +78,15 @@
 .projects__tech {
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
-  padding: 0.15rem 0.5rem;
-  border-radius: 3px;
+  gap: 0.28rem;
+  padding: 0.22rem 0.55rem;
+  border-radius: 999px;
   background: var(--code-bg);
-  font-size: 0.78rem;
+  border: 1px solid var(--hairline);
+  font-size: 0.74rem;
   color: var(--text);
   font-family: var(--mono);
+  font-weight: 400;
 }
 
 .projects__links {
@@ -87,46 +99,55 @@
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.35rem 0.8rem;
-  border-radius: 4px;
-  border: 1px solid var(--border);
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--hairline);
   color: var(--text-h);
+  font-family: var(--sans);
   font-size: 0.82rem;
   font-weight: 500;
-  font-family: inherit;
   text-decoration: none;
-  background: none;
+  background: var(--card-bg);
   cursor: pointer;
-  transition: border-color 0.3s ease, background 0.3s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+  transition: border-color 0.22s, background 0.22s, transform 0.22s;
 }
 
 .projects__link:hover {
-  border-color: var(--accent-border);
+  border-color: var(--card-border);
   background: var(--accent-bg);
-  transform: scale(1.05);
+  transform: translateY(-1px);
 }
 
 .projects__link--live {
-  border-color: var(--accent-border);
+  background: var(--text-h);
+  color: var(--bg);
+  border-color: var(--text-h);
 }
 
 .projects__link--live:hover {
-  border-color: var(--wipe-core);
-  background: var(--accent-bg);
-  transform: scale(1.05);
+  background: var(--text-h);
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+:root[data-theme="light"] .projects__link--live {
+  background: #111;
+  color: #fff;
+  border-color: #111;
 }
 
 .projects__subheading {
   font-family: var(--heading);
-  font-size: 1rem;
+  font-size: clamp(1.15rem, 2vw, 1.35rem);
   font-weight: 600;
+  letter-spacing: -0.02em;
   color: var(--text);
-  margin: 2rem 0 1rem;
+  margin: 2.5rem 0 1.25rem;
 }
 
 .projects__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 1rem;
 }
 

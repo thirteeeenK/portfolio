@@ -1,6 +1,6 @@
 .education {
   text-align: left;
-  max-width: 640px;
+  max-width: 680px;
   margin: 0 auto;
   position: relative;
 }
@@ -8,11 +8,11 @@
 .education::before {
   content: "";
   position: absolute;
-  left: 4px;
-  top: 5px;
-  bottom: 0;
+  left: 4.5px;
+  top: 10px;
+  bottom: 8px;
   width: 1px;
-  background: var(--border);
+  background: var(--hairline);
 }
 
 .education__item {
@@ -34,17 +34,27 @@
 }
 
 .education__dot {
-  width: 10px;
-  height: 10px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
-  background: var(--accent);
+  background: var(--text-h);
+  box-shadow: 0 0 0 4px var(--bg);
   flex-shrink: 0;
-  margin-top: 5px;
+  margin-top: 7px;
 }
 
 .education__content {
   flex: 1;
-  padding-bottom: 0.5rem;
+  padding: 1.1rem 1.25rem;
+  border-radius: 12px;
+  border: 1px solid var(--hairline);
+  background: var(--card-bg);
+  transition: border-color 0.22s, box-shadow 0.22s;
+}
+
+.education__item:hover .education__content {
+  border-color: var(--card-border);
+  box-shadow: var(--card-shadow);
 }
 
 .education__header {
@@ -58,29 +68,47 @@
 
 .education__program {
   font-family: var(--heading);
-  font-size: 1rem;
+  font-size: 1.02rem;
   font-weight: 600;
+  letter-spacing: -0.015em;
   color: var(--text-h);
   margin: 0;
+  line-height: 1.3;
 }
 
 .education__school {
-  font-size: 0.88rem;
-  color: var(--text);
+  font-family: var(--heading);
+  font-size: 1rem;
   font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--text);
+  line-height: 1.35;
+  margin-top: 0.15rem;
+  display: block;
 }
 
 .education__year {
-  font-size: 0.78rem;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
   color: var(--text);
   white-space: nowrap;
-  font-family: var(--mono);
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  background: var(--code-bg);
 }
 
 .education__level {
-  font-size: 0.8rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: var(--text);
-  opacity: 0.75;
+  opacity: 0.6;
+  margin-top: 0.5rem;
+  display: inline-block;
 }
 
 @media (max-width: 480px) {

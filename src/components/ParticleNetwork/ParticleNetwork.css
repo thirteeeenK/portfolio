@@ -1,0 +1,15 @@
+.particle-network {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.particle-network canvas {
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none !important;
+  display: block;
+}

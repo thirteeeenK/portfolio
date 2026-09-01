@@ -5,7 +5,20 @@
   right: 0;
   z-index: 1000;
   padding: 1rem 1.5rem;
-  transition: background 0.3s, box-shadow 0.3s;
+  transition: background 0.3s, box-shadow 0.3s, transform 0.65s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.4s ease;
+  will-change: transform, opacity;
+}
+
+.navbar--hidden {
+  transform: translateY(-102%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.navbar--revealed {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .navbar--scrolled {
@@ -161,5 +174,34 @@
   .navbar__nav {
     width: 100vw;
     border-left: none;
+  }
+}
+
+.navbar--hidden .navbar__nav {
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+}
+
+.navbar--revealed .navbar__nav {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.45s ease 0.2s, transform 0.45s ease 0.2s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navbar,
+  .navbar--hidden,
+  .navbar--revealed,
+  .navbar--hidden .navbar__nav,
+  .navbar--revealed .navbar__nav {
+    transition: none;
+    transform: none;
+  }
+  .navbar--hidden {
+    opacity: 0;
+  }
+  .navbar--revealed {
+    opacity: 1;
   }
 }

@@ -13,15 +13,21 @@
   --social-bg: rgba(255, 255, 255, 0.02);
   --shadow: none;
   --dot: rgba(255, 255, 255, 0.025);
-  --section-bg: rgba(10, 10, 10, 0.85);
-  --section-bg-alt: rgba(17, 17, 17, 0.85);
-  --section-accent: rgba(255, 255, 255, 0.04);
+  --section-bg: rgba(10, 10, 10, 0.48);
+  --section-bg-alt: rgba(17, 17, 17, 0.42);
+  --section-accent: rgba(255, 255, 255, 0.025);
+  --section-blur: 14px;
   --wipe-core: #ffffff;
   --wipe-glow: rgba(0, 240, 255, 0.8);
+  --hairline: rgba(255, 255, 255, 0.07);
+  --card-bg: rgba(255, 255, 255, 0.015);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --card-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
 
-  --sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --heading: 'Outfit', system-ui, -apple-system, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  /* Type system — swap these 3 lines + index.html links to change fonts */
+  --sans: 'Switzer', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --heading: 'Switzer', system-ui, -apple-system, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, Consolas, monospace;
 
   font: 17px/150% var(--sans);
   color-scheme: dark;
@@ -53,10 +59,15 @@ html::-webkit-scrollbar {
   --social-bg: rgba(0, 0, 0, 0.02);
   --shadow: none;
   --dot: rgba(0, 0, 0, 0.025);
-  --section-bg: #fafafa;
-  --section-bg-alt: #ededed;
-  --section-accent: rgba(0, 0, 0, 0.05);
+  --section-bg: rgba(250, 250, 250, 0.62);
+  --section-bg-alt: rgba(237, 237, 237, 0.55);
+  --section-accent: rgba(0, 0, 0, 0.03);
+  --section-blur: 14px;
   --wipe-core: #111111;
+  --hairline: rgba(0, 0, 0, 0.07);
+  --card-bg: #ffffff;
+  --card-border: rgba(0, 0, 0, 0.08);
+  --card-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
 
   color-scheme: light;
 }
@@ -97,7 +108,7 @@ body {
 
 h1, h2, h3 {
   font-family: var(--heading);
-  font-weight: 500;
+  font-weight: 700;
   color: var(--text-h);
 }
 

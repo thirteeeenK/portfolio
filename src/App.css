@@ -38,10 +38,11 @@ html {
 }
 
 .hero-text__name {
+  font-family: var(--heading);
   font-size: clamp(1.5rem, 5.5vw, 4rem);
   font-weight: 700;
-  letter-spacing: clamp(-1.5px, -0.1vw, -0.3px);
-  line-height: 1.1;
+  letter-spacing: -0.03em;
+  line-height: 1.06;
   margin-bottom: clamp(0.5rem, 1.2vw, 1.5rem);
   white-space: nowrap;
 }
@@ -242,5 +243,43 @@ html {
 
   .hero-spacer {
     height: 1.5rem;
+  }
+}
+
+/* ── hero dock (3 toggles centered before scroll → FLIP to navbar) ── */
+.hero-dock {
+  position: fixed;
+  left: 50%;
+  top: 1.15rem;
+  transform: translateX(-50%);
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  will-change: transform, opacity;
+}
+
+.hero-dock--hidden {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease;
+}
+
+.hero-dock--visible {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .hero-dock {
+    top: 0.9rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-dock,
+  .hero-dock--hidden,
+  .hero-dock--visible {
+    transition: none;
   }
 }
