@@ -13,9 +13,9 @@
   --social-bg: rgba(255, 255, 255, 0.02);
   --shadow: none;
   --dot: rgba(255, 255, 255, 0.025);
-  --section-bg: rgba(10, 10, 10, 0.48);
-  --section-bg-alt: rgba(17, 17, 17, 0.42);
-  --section-accent: rgba(255, 255, 255, 0.025);
+  --section-bg: transparent;
+  --section-bg-alt: transparent;
+  --section-accent: transparent;
   --section-blur: 14px;
   --wipe-core: #ffffff;
   --wipe-glow: rgba(0, 240, 255, 0.8);
@@ -59,9 +59,9 @@ html::-webkit-scrollbar {
   --social-bg: rgba(0, 0, 0, 0.02);
   --shadow: none;
   --dot: rgba(0, 0, 0, 0.025);
-  --section-bg: rgba(250, 250, 250, 0.62);
-  --section-bg-alt: rgba(237, 237, 237, 0.55);
-  --section-accent: rgba(0, 0, 0, 0.03);
+  --section-bg: transparent;
+  --section-bg-alt: transparent;
+  --section-accent: transparent;
   --section-blur: 14px;
   --wipe-core: #111111;
   --hairline: rgba(0, 0, 0, 0.07);
