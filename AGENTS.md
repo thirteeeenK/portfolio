@@ -31,3 +31,13 @@ npm run preview   # vite preview
 - **No test framework** — no test scripts, no test config
 - **No CI workflows**
 - Key deps: `framer-motion`, `react-icons`
+
+## Agent skills
+
+### Issue tracker
+
+Issues live as local markdown files under `.scratch/`. See `docs/agents/issue-tracker.md`.
+
+### Domain docs
+
+Single-context layout (`CONTEXT.md` + `docs/adr/`). See `docs/agents/domain.md`.
