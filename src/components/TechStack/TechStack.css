@@ -1,7 +1,7 @@
 .techstack {
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
+  gap: 1.5rem;
 }
 
 .techstack__group {
@@ -10,19 +10,18 @@
 
 .techstack__category {
   font-family: var(--mono);
-  font-size: 0.62rem;
+  font-size: 0.68rem;
   font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   color: var(--text);
-  opacity: 0.7;
   margin: 0 0 0.45rem;
 }
 
 .techstack__grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.38rem;
+  gap: 0.5rem;
 }
 
 .techstack__item {
@@ -45,8 +44,6 @@
   border-color: var(--card-border);
   background: var(--accent-bg);
   transform: translateY(-1px);
-  box-shadow: var(--card-shadow);
-  z-index: 1;
 }
 
 .techstack__name {
