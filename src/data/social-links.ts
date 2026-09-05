@@ -10,15 +10,20 @@ export const socialLinks: SocialLink[] = [
     url: "https://github.com/thirteeeenK",
     icon: "github",
   },
-  {
-    name: "LinkedIn",
-    url: "https://linkedin.com/in",
-    icon: "linkedin",
+  // {
+  //   name: "LinkedIn",
+  //   url: "https://linkedin.com/in",
+  //   icon: "linkedin",
+  // },
+   {
+    name: "Facebook",
+    url: "https://www.facebook.com/johnkenly.pamor.13/",
+    icon: "facebook",
   },
   {
-    name: "Twitter",
-    url: "https://twitter.com",
-    icon: "twitter",
+    name: "Instagram",
+    url: "https://instagram.com/thirteeeen.K",
+    icon: "instagram",
   },
   {
     name: "Email",

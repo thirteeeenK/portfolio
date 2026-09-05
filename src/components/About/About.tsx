@@ -1,6 +1,5 @@
 import Section from "../Section/Section"
 import { personal } from "../../data/personal"
-import CtaButton from "../CtaButton/CtaButton"
 import "./About.css"
 
 export default function About() {
@@ -18,22 +17,15 @@ export default function About() {
               </p>
             ))}
           </div>
-          <div className="about__footer">
-            <div className="about__details">
-              <div className="about__detail">
-                <span className="about__detail-label">Location</span>
-                <span className="about__detail-value">{personal.location}</span>
-              </div>
-              <div className="about__detail">
-                <span className="about__detail-label">Email</span>
-                <span className="about__detail-value">{personal.email}</span>
-              </div>
+          <div className="about__details">
+            <div className="about__detail">
+              <span className="about__detail-label">Location</span>
+              <span className="about__detail-value">{personal.location}</span>
             </div>
-            {personal.resumeUrl && (
-              <CtaButton href={personal.resumeUrl} className="about__resume">
-                View Resume
-              </CtaButton>
-            )}
+            <div className="about__detail">
+              <span className="about__detail-label">Email</span>
+              <span className="about__detail-value">{personal.email}</span>
+            </div>
           </div>
         </div>
       </div>
