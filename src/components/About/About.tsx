@@ -17,14 +17,16 @@ export default function About() {
               </p>
             ))}
           </div>
-          <div className="about__details">
-            <div className="about__detail">
-              <span className="about__detail-label">Location</span>
-              <span className="about__detail-value">{personal.location}</span>
-            </div>
-            <div className="about__detail">
-              <span className="about__detail-label">Email</span>
-              <span className="about__detail-value">{personal.email}</span>
+          <div className="about__footer">
+            <div className="about__details">
+              <div className="about__detail">
+                <span className="about__detail-label">Location</span>
+                <span className="about__detail-value">{personal.location}</span>
+              </div>
+              <div className="about__detail">
+                <span className="about__detail-label">Email</span>
+                <span className="about__detail-value">{personal.email}</span>
+              </div>
             </div>
           </div>
         </div>
