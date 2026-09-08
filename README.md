@@ -182,4 +182,4 @@ Then update OG metas to live domain.
 | `npm run lint` | ESLint flat |
 | `npm run preview` | Preview build |
 
-**Made and Vibe Coded with ❤️**
+**Built and Vibecoded with ❤️ for the community.**
