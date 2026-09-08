@@ -9,8 +9,8 @@ Animated personal portfolio — **light & dark themes**, **Vibe Coded**, **React
 - **Two-layer voxel hero** — stacked PNGs with cursor spotlight reveal; drifts with cursor (parallax), idle shrink.
 - **Hero image toggle** — swaps voxel animation ↔ static real-photo cutout (navbar + hero dock); persisted `localStorage: "hero-image"`, theme-aware cutout (`no-shades` dark / `with-shades` light), local line-split wipe, instant on `prefers-reduced-motion`.
 - **Hero dock FLIP** — three toggles centered at hero (`ToggleGroup` / `framer-motion` `LayoutGroup` + `layoutId`) → FLIP to navbar on scroll (`scrollY > 2`); navbar hidden until split; hero-dock centered at `1.15rem`.
-- **Two switchable backgrounds** — **Kinetic Grid** (canvas grid warps to cursor, click ripples) ↔ **Particle Network** (`tsparticles/slim`, 85 dots, links 160px, grab/push, 0.7 speed); default `network`; toggle persisted `localStorage: "bg-mode"`; shares `ThemeReveal` curtain wipe (500/1800ms) with theme, guarded against concurrent wipes; theme-aware colors (blue `#2563eb` light / white dark).
-- **Light & dark mode** — sun/moon toggle with full-screen curtain wipe; persists `localStorage: "theme"`, FOUC guard in `index.html` (`prefers-color-scheme` fallback), `<meta theme-color>` sync.
+- **Two switchable backgrounds** — **Kinetic Grid** (canvas grid warps to cursor, click ripples) ↔ **Particle Network** (`tsparticles/slim`, theme-dependent counts/colors, links ~150-160px, grab/push, 0.7 speed); default `network`; toggle persisted `localStorage: "bg-mode"`; shares `ThemeReveal` curtain wipe (500/1800ms) with theme, guarded against concurrent wipes; theme-aware colors (blue `#2563eb` light / muted gray dark).
+- **Light & dark mode** — sun/moon toggle with full-screen curtain wipe; persists `localStorage: "theme"`, FOUC guard in `index.html` (light default, ignores OS), `<meta theme-color>` sync.
 - **Premium editorial sections** — hairline dividers, card tokens (`--hairline/--card-bg/--card-border/--card-shadow`), `Switzer` + `IBM Plex Mono` type system (see below); `Section` hairline dividers, `About` lead with left accent, `TechStack` icon cards, `Projects` featured vs grid, `Contact` centered CTA.
 - **Video demo modal** — `liveUrl` ending `.mp4/.webm/.mov/.ogg` opens inline modal (`public/videos/...`).
 - **Typewriter hero titles** — rotating roles from `personal.titles`.
@@ -21,11 +21,11 @@ Animated personal portfolio — **light & dark themes**, **Vibe Coded**, **React
 | Layer | Technology |
 | --- | --- |
 | Framework | React 19 + TypeScript 6 |
-| Build | Vite 8 + `@vitejs/plugin-react` |
-| Styling | Custom CSS per-component + Tailwind CSS 4 (`@tailwindcss/vite`) |
+| Build | Vite 8 + `@vitejs/plugin-react` + `@tailwindcss/vite` |
+| Styling | Custom CSS per-component + Tailwind CSS 4 (`@import "tailwindcss"` in `src/index.css`) |
 | Animation | `framer-motion` 12 (LayoutGroup/FLIP), custom RAF loops (hero, grid) |
 | Particles | `@tsparticles/react` + `@tsparticles/slim` (`tsparticles` engine) |
-| Icons | `react-icons` (Feather `Fi*`, Bootstrap `Bs*`) |
+| Icons | `react-icons` (Feather `Fi*`, Bootstrap `Bs*`) + inline SVGs (SocialLinks) |
 | Fonts | **Switzer** (Fontshare, 400/500/600/700) + **IBM Plex Mono** (Google, 400/500) — vars `--heading/--sans/--mono` in `src/index.css` |
 | Compiler | React Compiler via `@rolldown/plugin-babel` + `babel-plugin-react-compiler` |
 | Lint | ESLint 10 (flat `eslint.config.js`) |
@@ -34,8 +34,8 @@ Animated personal portfolio — **light & dark themes**, **Vibe Coded**, **React
 
 One-line swap system:
 
-- `index.html:17-20` — Fontshare Switzer + Google IBM Plex Mono (preconnect both)
-- `src/index.css:26-29` — `--heading`/`--sans` = `'Switzer'`, `--mono` = `'IBM Plex Mono'`; `h1,h2,h3` weight `700`, section/project titles `600`
+- `index.html` — Fontshare Switzer + Google IBM Plex Mono (preconnect both)
+- `src/index.css` — `--heading`/`--sans` = `'Switzer'`, `--mono` = `'IBM Plex Mono'`; `h1,h2,h3` weight `700`, section/project titles `600`
 
 To change fonts, replace those 2 blocks only.
 
@@ -54,24 +54,24 @@ Requires Node 18+.
 ## Project Structure
 
 ```
-├── index.html               # shell, OG meta, theme FOUC guard, fonts
+├── index.html               # shell, OG meta, light-default FOUC guard, fonts (Switzer + IBM Plex Mono)
 ├── public/                  # static roots (hero PNGs, meta.png, favicon, videos/)
 ├── src/
-│   ├── App.tsx              # layout: hero → sections → footer; bg/theme/hero state + wipes
-│   ├── App.css              # hero-text + hero-dock
-│   ├── index.css            # tokens (--bg/--text/--hairline/--card-*) + fonts
+│   ├── App.tsx              # LayoutGroup hero-dock FLIP, dual ThemeReveal wipes (theme+bg), bgMode/theme/hero state
+│   ├── App.css              # hero-text + hero-dock (1.15rem) + responsive layout
+│   ├── index.css            # tokens (--bg/--text/--hairline/--card-*) + @import "tailwindcss"
 │   ├── components/
-│   │   ├── HeroReveal/      # voxel + photo reveal (+ WordReveal, swap wipe)
-│   │   ├── ThemeReveal/     # full-screen curtain wipe (theme + bg)
+│   │   ├── HeroReveal/      # voxel + photo reveal (preload all variants, spotlight + parallax, swap wipe)
+│   │   ├── ThemeReveal/     # full-screen curtain wipe (reused for theme + bg)
 │   │   ├── KineticGrid/     # canvas warp grid
 │   │   ├── ParticleNetwork/ # tsparticles network (tsparticles/slim)
 │   │   ├── ToggleGroup/     # 3-toggle pill (hero & nav variants, layoutId FLIP)
-│   │   ├── Navbar/          # fixed nav + toggles (revealed/hidden slide)
+│   │   ├── Navbar/          # fixed nav + ToggleGroup FLIP target (revealed/hidden)
 │   │   ├── Typewriter/  Section/  CtaButton/  TechIcon/  SocialLinks/  Footer/
 │   │   ├── About/  Skills/  TechStack/  Projects/  Education/  Certifications/  Contact/
 │   │   └── ...
 │   └── data/                # ★ all content (no component edits needed)
-└── vite.config.ts           # React + Babel React Compiler
+└── vite.config.ts           # React + Tailwind + Babel React Compiler
 ```
 
 ## The Hero Section
@@ -89,10 +89,10 @@ Two stacked PNGs + cursor spotlight:
 
 Fully static cutout, still interactive:
 
-- **Theme-aware variant** — `App.tsx:142-143` picks `with-shades-cropped.png` (light) vs `no-shades-cropped.png` (dark); curtain hides swap at `HERO_SPLIT_MS=500`.
-- **Hover spotlight** — moving cursor (or finger drag on touch) reveals *opposite* shade through same radial mask; idle 1s shrinks it (`HeroReveal.tsx:167-206`, `.hero-reveal__photo--reveal`). Whole photo drifts ~12px parallax (`HeroReveal.tsx:182-191`), frozen when `scrollSplit` or `disableCursorShift`.
+- **Theme-aware variant** — `App.tsx` picks `with-shades-cropped.png` (light) vs `no-shades-cropped.png` (dark); curtain hides swap at `HERO_SPLIT_MS=500`.
+- **Hover spotlight** — moving cursor (or finger drag on touch) reveals *opposite* shade through same radial mask; idle 1s shrinks it (`.hero-reveal__photo--reveal`). Whole photo drifts ~12px parallax, frozen when `scrollSplit` or `disableCursorShift`.
 
-Swap plays `hero-reveal__swap` line-split wipe (`1800ms`); `prefers-reduced-motion` swaps instantly.
+Swap plays `hero-reveal__swap` line-split wipe (`1800ms`); `prefers-reduced-motion` swaps instantly. All four hero images are preloaded upfront (`HeroReveal` preloads both photo variants) via `loading → open → done` phases.
 
 ### Replacing hero images
 
@@ -103,22 +103,22 @@ Swap plays `hero-reveal__swap` line-split wipe (`1800ms`); `prefers-reduced-moti
 | `transparent-base.png` | Voxel base | Portrait/square, transparent optional |
 | `transparent-flame.png` | Voxel reveal | **Transparent PNG cutout** (glow subject only) |
 | `with-shades-cropped.png` | Photo mode — light | **Transparent PNG cutout**, identical canvas to dark variant |
-| `no-shades-cropped.png` | Photo mode — dark | Same canvas/size; nudge `HeroReveal.css:131` `.hero-reveal__photo--no-shades { transform: translate(...) scale(...) }` at 900/600/480 if misaligned |
+| `no-shades-cropped.png` | Photo mode — dark | Same canvas/size; nudge `.hero-reveal__photo--no-shades { transform: translate(...) scale(...) }` in `HeroReveal.css` at 900/600/480 if misaligned |
 
-Steps: drop into `public/`, keep same dimensions per pair, restart dev server. Custom names via `App.tsx` props: `baseSrc`/`flameSrc`/`photoSrc`/`photoVariant`/`mode` (`HeroReveal.tsx` defaults). `src/assets/hero.png` is unused leftover.
+Steps: drop into `public/`, keep same dimensions per pair, restart dev server. Custom names via `App.tsx` props: `baseSrc`/`flameSrc`/`photoSrc`/`photoVariant`/`mode` (`HeroReveal` defaults). `src/assets/hero.png` is unused leftover.
 
 ### Backgrounds — Grid vs Network
 
 | Mode | Impl | Behavior |
 | --- | --- | --- |
-| `grid` | `KineticGrid.tsx` — canvas | 55px cells, 260px influence warp 24px, dot 0.7/28px, ripples on click, theme-aware `--hairline` palette |
-| `network` | `ParticleNetwork.tsx` — `tsparticles` | `loadSlim`, 85 dots size 2-4.2 link 160px 1.3px grab 210/push 3, colors `white` dark / `blue #2563eb` light, `fullScreen: false` over page bg |
+| `grid` | `KineticGrid` — canvas | 55px cells, 260px influence warp 24px, dot 0.7/28px, ripples on click, theme-aware `--hairline` palette |
+| `network` | `ParticleNetwork` — `tsparticles` | `loadSlim`, theme-dependent: 52 dots dark / 85 light, size 1.4–2.8, links 150px dark / 160px light (1.0/1.3px), opacity 0.32/0.45, grab 160/210 + push 2/3, colors `#d6d0d0` links + `#3a3a3a` dots dark / `#2563eb` light, `fullScreen: false` over page bg |
 
-Default `network` (`App.tsx:56-65`, `bg-mode` localStorage). Toggle via grid/stars button (`BsGrid3X3Gap`/`BsStars`) in navbar or hero dock; reuses `ThemeReveal` (`bgWiping` guard `wiping||bgWiping`); `prefers-reduced-motion` toggles instantly without wipe and stops particle `move`.
+Default `network` (`bg-mode` localStorage in `App.tsx`). Toggle via grid/stars button (`BsGrid3X3Gap`/`BsStars`) in navbar or hero dock; reuses `ThemeReveal` (`bgWiping` guard `wiping||bgWiping`); `prefers-reduced-motion` toggles instantly without wipe and stops particle `move`.
 
 ## Light & Dark Mode + Background Wipe
 
-Shared `ThemeReveal` curtain (`ThemeReveal.tsx`): `SPLIT_MS=500` (curtain reaches center, `onComplete` flips `data-theme` or `bg-mode`), `DONE_MS=1800` (curtain opens, `onDone` clears). Inline script in `index.html:23-38` sets `data-theme` from `localStorage` → `prefers-color-scheme` → dark. Guard: `handleToggleTheme`/`handleToggleBg` return if `wiping||bgWiping`. Colors are CSS vars in `src/index.css` (`:root` dark + `:root[data-theme="light"]` overrides).
+Shared `ThemeReveal` curtain (`ThemeReveal`): `SPLIT_MS=500` (curtain reaches center, `onComplete` flips `data-theme` or `bg-mode`), `DONE_MS=1800` (curtain opens, `onDone` clears). Inline script in `index.html` sets `data-theme` from `localStorage` → `light` default (ignores `prefers-color-scheme`). Guard: `handleToggleTheme`/`handleToggleBg` return if `wiping||bgWiping`. Colors are CSS vars in `src/index.css` (`:root` dark + `:root[data-theme="light"]` overrides).
 
 ## Customizing Content (`src/data/`)
 
@@ -126,7 +126,7 @@ Edit TS files, site updates. Comments show disabled entries.
 
 - **`personal.ts`** — `name`, `titles[]` (typewriter), `tagline`, `bio[]`, `location`, `email` (mailto), `resumeUrl` (`#` hides).
 - **`navigation.ts`** — `{ label, href }[]`; `href` must match section `id`.
-- **`social-links.ts`** — `{ name, url, icon }`; icon keys `github/linkedin/twitter/email`; replace placeholder URLs.
+- **`social-links.ts`** — `{ name, url, icon }`; icon keys `github/facebook/instagram/email` (also supports `linkedin`/`twitter`); replace placeholder URLs.
 - **`skills.ts`** — `{ name, category }[]` (Design/Frontend/Backend/Soft Skills…).
 - **`tech-stack.ts`** — `{ name, category, url }[]`; categories `Frontend|Backend|Database|DevOps|Tools|Language|AI Tools`.
 - **`projects.ts`** — `{ id, title, description, technologies[], thumbnail?, githubUrl?, liveUrl?, featured, category }`; `liveUrl` `.mp4/.webm/.mov/.ogg` → video modal from `public/videos/`.
@@ -142,12 +142,12 @@ Edit TS files, site updates. Comments show disabled entries.
 | `transparent-flame.png` | `public/` | Voxel glow cutout |
 | `with-shades-cropped.png` | `public/` | Photo — light |
 | `no-shades-cropped.png` | `public/` | Photo — dark |
-| `meta.png` | `public/` | OG share image (`index.html:15`) |
-| `cat3.png` | `public/` | Tab favicon (`index.html:5`) |
+| `meta.png` | `public/` | OG share image (`index.html`) |
+| `cat3.png` | `public/` | Tab favicon (`index.html`) |
 | `favicon.svg` / `icons.svg` | `public/` | Unused alts |
 | `videos/recording.mp4` | `public/videos/` | Demo video example |
 
-Update `og:url`/`og:image` in `index.html:11-15` to your domain on deploy.
+Update `og:url`/`og:image` in `index.html` to your domain on deploy.
 
 ## TypeScript Quirks
 
