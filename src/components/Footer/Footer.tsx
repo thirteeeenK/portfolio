@@ -17,12 +17,12 @@ export default function Footer() {
         <div className="footer__meta">
           {/* <span className="footer__location">{personal.location}</span> */}
           <span className="footer__copy">
-            &copy; {year} {personal.name}. All Rights Reserved.
+            &copy; {year} {personal.name}
           </span>
           
         </div>
         <span className="footer__tagline">
-            Made and Vibe Coded with ❤️ for the community.
+            Built and Vibecoded with ❤️ for the community.
           </span>
       </div>
 

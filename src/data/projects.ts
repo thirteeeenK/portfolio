@@ -12,36 +12,46 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+  id: "portfolio",
+  title: "Portfolio",
+  description: "Personal portfolio — React 19 + TypeScript + Vite, Tailwind and Framer Motion. Data-driven sections with Quiet Monolith editorial styling, built fast and fully responsive.",
+  technologies: ["React", "TypeScript", "Vite", "Tailwind CSS", "Framer Motion"],
+  githubUrl: "https://github.com/thirteeeenK/portfolio",
+  liveUrl: "https://johnkenlypamor.dev",
+  featured: true, // or false -> shows under "More Projects"
+  category: "Frontend / Vibecode",
+},
+  {
+    id: "deleteMeWeb",
+    title: "Delete Me",
+    description:
+      "Gesture eraser using MediaPipe Hands + OpenCV. Close your hand — subject vanishes from canvas. Vibecoded to explore browser-based hand tracking",
+    technologies: ["HTML", "CSS", "Javascript", "MediaPipe", "OpenCV"],
+    githubUrl: "https://github.com/thirteeeenK/deleteMeWeb",
+    liveUrl: "/videos/recording.mp4",
+    featured: true,
+    category: "Vibecode",
+  },
+  {
     id: "dealOrNoDeal",
     title: "Deal Or No Deal",
     description:
-      "A simple probability and statistics game developed for educational purpose only.",
+      "Browser recreation of Deal or No Deal. Open cases, evaluate banker offers, and play probability against instinct",
     technologies: ["HTML", "CSS", "Javascript"],
     githubUrl: "https://github.com/stooopidkenly/Deal-or-No-Deal",
     liveUrl: "https://dealornodeal-black.vercel.app/",
-    featured: true,
+    featured: false,
     category: "Frontend",
   },
   {
     id: "nasa-apod",
     title: "Astronomy Picture of the Day",
     description:
-      "Simple API fetching using NASA API Key to get real daily data.",
+      "NASA APOD viewer via official API. Fetch daily imagery by date with HD view and metadata caching.",
     technologies: ["HTML", "CSS", "Javascript"],
-    // githubUrl: "https://github.com",
+    githubUrl: "https://github.com/thirteeeenK/NASA_APOD",
     liveUrl: "https://nasa-apod-alpha-two.vercel.app/",
-    featured: true,
+    featured: false,
     category: "Frontend",
-  },
-  {
-    id: "deleteMeWeb",
-    title: "Delete Me",
-    description:
-      "Side project I vibecoded because of curiosity and for fun. Close hand - vanish.",
-    technologies: ["HTML", "CSS", "Javascript", "MediaPipe", "OpenCV"],
-    githubUrl: "https://github.com/thirteeeenK/deleteMeWeb",
-    liveUrl: "/videos/recording.mp4",
-    featured: true,
-    category: "Vibecode",
   },
 ]
